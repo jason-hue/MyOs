@@ -1,1 +1,0 @@
-/home/knifefire/RustroverProjects/MyOs/os/target/riscv64gc-unknown-none-elf/debug/MyOs: /home/knifefire/RustroverProjects/MyOs/os/src/console.rs /home/knifefire/RustroverProjects/MyOs/os/src/entry.asm /home/knifefire/RustroverProjects/MyOs/os/src/log.rs /home/knifefire/RustroverProjects/MyOs/os/src/main.rs /home/knifefire/RustroverProjects/MyOs/os/src/sbi.rs
