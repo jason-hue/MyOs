@@ -1,0 +1,11 @@
+[package]
+name = "MyOs"
+version = "0.1.0"
+edition = "2021"
+[profile.dev]
+panic = "abort"
+[profile.release]
+panic = "abort"
+debug = true
+[dependencies]
+sbi-rt = { version = "0.0.2", features = ["legacy"] }
