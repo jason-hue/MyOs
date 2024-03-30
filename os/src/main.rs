@@ -7,6 +7,8 @@ mod console;
 mod sbi;
 mod log;
 mod k210_lcd_driver;
+mod batch;
+mod sync;
 
 
 use core::panic::PanicInfo;
