@@ -1,9 +1,14 @@
 #![no_std]
 #![feature(linkage)]
+
+mod lang_items;
+mod syscall;
+pub mod console;
 #[no_mangle]
 #[link_section=".text.entry"]
 pub extern "C" fn start_main(){
     clear_bss();
+    exit(main());
 }
 
 fn clear_bss() {
@@ -21,4 +26,13 @@ fn clear_bss() {
 #[no_mangle]
 fn main() -> i32 {
     panic!("Cannot find main!");
+}
+
+use crate::syscall::{sys_exit, sys_write};
+
+pub fn write(fd:usize, buffer:&[u8]) -> isize {
+    sys_write(fd, buffer.as_ptr(),buffer.len())
+}
+pub fn exit(exit_code:i32)->isize{
+    sys_exit(exit_code)
 }

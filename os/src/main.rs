@@ -9,10 +9,10 @@ mod log;
 mod k210_lcd_driver;
 
 
-
 use core::panic::PanicInfo;
 use core::arch::global_asm;
 use crate::console::print;
+use crate::k210_lcd_driver::ST7789VConfig;
 use crate::sbi::shutdown;
 
 #[panic_handler]

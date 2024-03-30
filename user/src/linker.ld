@@ -1,5 +1,5 @@
 OUTPUT_ARCH(riscv)
-ENTRY(_start)
+ENTRY(start_main)
 BASE_ADDRESS = 0x80400000;
 
 SECTIONS{
@@ -36,5 +36,6 @@ SECTIONS{
     ekernel = .;
      /DISCARD/ : {
             *(.eh_frame)
+            *(.debug*)
         }
 }
