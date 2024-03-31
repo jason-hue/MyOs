@@ -6,6 +6,24 @@ global_asm!(include_str!("link_app.S"));
 use crate::sync::UPsafeCell;
 const MAX_APP: usize =16 ;
 const BASE_ADDRESS:usize = 0x80400000;
+const USER_STACK_SIZE: usize = 4096*2;
+const KERNEL_STACK_SIZE: usize = 4096*2;
+struct UserStack {
+    data: [usize;USER_STACK_SIZE]
+}
+struct KernelStack{
+    data: [usize;KERNEL_STACK_SIZE]
+}
+impl UserStack{
+    pub fn get_ap(&self) -> usize {
+        self.data.as_ptr() as usize + USER_STACK_SIZE
+    }
+}
+impl KernelStack{
+    pub fn get_sp(&self) -> usize {
+        self.data.as_ptr() as usize + KERNEL_STACK_SIZE
+    }
+}
 struct AppManager {
     num_app: usize,
     current_app:usize,

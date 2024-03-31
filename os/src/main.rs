@@ -9,6 +9,7 @@ mod log;
 mod k210_lcd_driver;
 mod batch;
 mod sync;
+mod trap;
 
 
 use core::panic::PanicInfo;

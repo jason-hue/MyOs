@@ -11,6 +11,7 @@ debug = true
 sbi-rt = { version = "0.0.2", features = ["legacy"] }
 embedded-hal = "0.2.3"
 lazy_static = { version = "1.4.0", features = ["spin_no_std"] }
+riscv = { git = "https://github.com/rcore-os/riscv", features = ["inline-asm"] }
 [dependencies.embedded-graphics]
 optional = true
 version = "0.6.0-beta.2"
