@@ -20,13 +20,14 @@ _alltraps:
     .set n,n+1
 .endr
 
-    csrr t0,sscratch
-    csrr t1,sstatus
-    csrr t2,sepc
+    csrr t0,sstatus
+    csrr t1,sepc
 
-    sd t0,2*8(sp)
+    sd t0,32*8(sp)
     sd t1,33*8(sp)
-    sd t2,32*8(sp)
+    csrr t2,sscratch
+    sd t2,2*8(sp)
+
     mv a0,sp
 
     call trap_handler
@@ -35,12 +36,12 @@ _alltraps:
 
 _restore:
     mv sp, a0
-    ld t0, 2*8(sp)
+    ld t0, 32*8(sp)
     ld t1, 33*8(sp)
-    ld t2, 32*8(sp)
-    csrw sscratch, t0
-    csrw sstatus, t1
-    csrw sepc, t2
+    ld t2, 2*8(sp)
+    csrw sstatus, t0
+    csrw sepc, t1
+    csrw sscratch, t2
     ld x1, 1*8(sp)
     ld x3, 3*8(sp)
 .set n, 5

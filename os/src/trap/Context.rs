@@ -9,8 +9,8 @@ impl TrapContext{
         self.x[2] = sp;
     }
     pub fn init_trap_context(entry_pc: usize, sp: usize) -> TrapContext {
-        let sstatus = sstatus::read();
-        unsafe { sstatus::set_spp(SPP::User); }
+        let mut sstatus = sstatus::read();
+        sstatus.set_spp(SPP::User);
         let mut cx = TrapContext{
             x: [0;32],
             sstatus,

@@ -2,6 +2,7 @@ use core::arch::{asm, global_asm};
 use core::ops::Add;
 use lazy_static::lazy_static;
 use core::slice::{from_raw_parts,from_raw_parts_mut};
+use crate::sbi::shutdown;
 global_asm!(include_str!("link_app.S"));
 use crate::sync::UPsafeCell;
 use crate::trap::Context::TrapContext;
@@ -25,7 +26,7 @@ impl KernelStack{
     pub fn get_sp(&self) -> usize {
         self.data.as_ptr() as usize + KERNEL_STACK_SIZE
     }
-    pub fn push_context<'a>(&self, cx: TrapContext) -> &'a mut TrapContext {
+    pub fn push_context(&self, cx: TrapContext) -> &'static mut TrapContext {
         let cx_ptr = (self.get_sp() - core::mem::size_of::<TrapContext>()) as *mut TrapContext;
         unsafe {
             *cx_ptr = cx;
@@ -68,8 +69,10 @@ lazy_static!{
 impl AppManager{
     unsafe fn load_app(&self,app_id:usize){
         if app_id>self.num_app{
-            panic!("All Applications completed! ")
+            println!("All Applications completed!");
+            shutdown(false);
         }
+        println!("[kernel] Loading app_{}", app_id);
         from_raw_parts_mut(BASE_ADDRESS as *mut u8,MAX_APP+1).fill(0);
         let app_src = from_raw_parts(self.app_start[app_id] as *const u8,self.app_start[app_id+1]-self.app_start[app_id]);
         let mut app_dst = from_raw_parts_mut(BASE_ADDRESS as *mut u8,self.app_start[app_id+1]-self.app_start[app_id]);
@@ -90,13 +93,13 @@ impl AppManager{
     fn get_current_app(&self)->usize{
         self.current_app
     }
-    fn move_to_next_app(&self) -> usize {
-        self.current_app+1
+    fn move_to_next_app(&mut self){
+        self.current_app += 1
     }
 }
 pub fn run_next_app()->!{
-    let app_manager = APP_MANAGER.exclusive_access();
-    let current_app = app_manager.current_app;
+    let mut app_manager = APP_MANAGER.exclusive_access();
+    let current_app = app_manager.get_current_app();
     unsafe {
         app_manager.load_app(current_app)
     }

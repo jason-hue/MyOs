@@ -14,8 +14,7 @@ pub fn syscall(id: usize,arg0: usize,arg1: usize,arg2: usize)->isize{
             exit(arg0 as i32)
         }
         _ => {
-            println!("Unsupport syscall!!");
-            0
+            panic!("Unsupported syscall_id: {}", id)
         }
     }
 }

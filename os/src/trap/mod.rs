@@ -9,9 +9,10 @@ use crate::trap::Context::TrapContext;
 use crate::syscall::syscall;
 
 pub mod Context;
+global_asm!(include_str!("trap.S"));
 
 #[no_mangle]
-pub fn trap_handler(mut cx: TrapContext) -> TrapContext {
+pub fn trap_handler(cx: &mut TrapContext) ->&mut TrapContext {
     let scause = scause::read();
     let stval = stval::read();
     match scause.cause() {
@@ -33,7 +34,7 @@ pub fn trap_handler(mut cx: TrapContext) -> TrapContext {
     }
     cx
 }
-global_asm!(include_str!("trap.S"));
+
 pub fn init(){
     extern "C"{
         fn _alltraps();
