@@ -10,10 +10,13 @@ mod k210_lcd_driver;
 mod batch;
 mod sync;
 mod trap;
+mod syscall;
 
 
 use core::panic::PanicInfo;
 use core::arch::global_asm;
+use ::log::{debug, trace};
+use log::*;
 use crate::console::print;
 use crate::k210_lcd_driver::ST7789VConfig;
 use crate::sbi::shutdown;
@@ -36,13 +39,44 @@ global_asm!(include_str!("entry.asm"));
 #[no_mangle]
 pub extern "C" fn  start_main(){
     clear_bss();
+    extern "C"{
+        fn stext();
+    fn etext();
+    fn srodata();
+    fn erodata();
+    fn sdata();
+    fn edata();
+    fn sbss();
+    fn ebss();
+    fn stack_low();
+    fn stack_top();
+    }
     info!("hello_world!");
     error!("hello_world！");
     warn!("hello_world!");
-    panic!("shutdown machine!");
-    loop {
+    trace!(
+        "[kernel] .text [{:#x}, {:#x})",
+        stext as usize,
+        etext as usize
+    );
+    debug!(
+        "[kernel] .rodata [{:#x}, {:#x})",
+        srodata as usize, erodata as usize
+    );
+    info!(
+        "[kernel] .data [{:#x}, {:#x})",
+        sdata as usize, edata as usize
+    );
+    warn!(
+        "[kernel] boot_stack top=bottom={:#x}, lower_bound={:#x}",
+        stack_top as usize, stack_low as usize
+    );
+    error!("[kernel] .bss [{:#x}, {:#x})", sbss as usize, ebss as usize);
 
-    }
+    trap::init();
+    batch::init();
+    batch::run_next_app();
+    panic!("shutdown machine!");
 }
 fn clear_bss(){
     extern "C" {

@@ -9,6 +9,7 @@ dependencies = [
  "embedded-graphics",
  "embedded-hal",
  "lazy_static",
+ "log",
  "riscv",
  "sbi-rt",
 ]

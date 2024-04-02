@@ -4,6 +4,8 @@ use lazy_static::lazy_static;
 use core::slice::{from_raw_parts,from_raw_parts_mut};
 global_asm!(include_str!("link_app.S"));
 use crate::sync::UPsafeCell;
+use crate::trap::Context::TrapContext;
+
 const MAX_APP: usize =16 ;
 const BASE_ADDRESS:usize = 0x80400000;
 const USER_STACK_SIZE: usize = 4096*2;
@@ -15,7 +17,7 @@ struct KernelStack{
     data: [usize;KERNEL_STACK_SIZE]
 }
 impl UserStack{
-    pub fn get_ap(&self) -> usize {
+    pub fn get_sp(&self) -> usize {
         self.data.as_ptr() as usize + USER_STACK_SIZE
     }
 }
@@ -23,7 +25,22 @@ impl KernelStack{
     pub fn get_sp(&self) -> usize {
         self.data.as_ptr() as usize + KERNEL_STACK_SIZE
     }
+    pub fn push_context<'a>(&self, cx: TrapContext) -> &'a mut TrapContext {
+        let cx_ptr = (self.get_sp() - core::mem::size_of::<TrapContext>()) as *mut TrapContext;
+        unsafe {
+            *cx_ptr = cx;
+        }
+        unsafe {
+            cx_ptr.as_mut().unwrap()
+        }
+    }
 }
+static KERNEL_STACK: KernelStack = KernelStack{
+    data: [0;KERNEL_STACK_SIZE]
+};
+static USER_STACK: UserStack = UserStack{
+    data: [0;USER_STACK_SIZE]
+};
 struct AppManager {
     num_app: usize,
     current_app:usize,
@@ -39,7 +56,7 @@ lazy_static!{
             let num_app = num_app_ptr.read_volatile();
             let mut app_start:[usize;MAX_APP+1] = [0;MAX_APP+1];
             let app_raw = from_raw_parts(num_app_ptr.add(1),num_app+1);
-            app_start[..num_app].copy_from_slice(app_raw);
+            app_start[..=num_app].copy_from_slice(app_raw);
             AppManager{
                 num_app,
                 current_app:0,
@@ -85,5 +102,21 @@ pub fn run_next_app()->!{
     }
     app_manager.move_to_next_app();
     drop(app_manager);
-    panic!("Unreachable!")
+    extern "C"{
+        fn _restore(trap_context_addr: usize);
+    }
+    unsafe {
+        _restore(KERNEL_STACK.push_context(
+            TrapContext::init_trap_context(BASE_ADDRESS, USER_STACK.get_sp())
+        ) as *const _ as usize);
+
+    };
+    panic!("Unreachable in batch::run_current_app!");
+
+}
+pub fn init(){
+    print_app_info();
+}
+pub fn print_app_info() {
+    APP_MANAGER.exclusive_access().print_app_info();
 }
