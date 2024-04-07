@@ -12,7 +12,7 @@ OBJCOPY := rust-objcopy --binary-architecture=riscv64
 clean:
 	cargo clean
 elf:clean
-	@cargo build --release
+	python3 linkchg.py qemu
 
 binary: elf
 	@$(foreach elf, $(ELFS), $(OBJCOPY) $(elf) --strip-all -O binary $(patsubst $(TARGET_DIR)/%, $(TARGET_DIR)/%.bin, $(elf));)

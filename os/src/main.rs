@@ -1,6 +1,7 @@
 #![no_std]
 #![no_main]
 #![feature(panic_info_message)]
+#![feature(str_from_raw_parts)]
 
 #[macro_use]
 mod console;
@@ -8,6 +9,7 @@ mod sbi;
 mod log;
 mod k210_lcd_driver;
 mod batch;
+mod loader;
 mod sync;
 mod trap;
 mod syscall;
