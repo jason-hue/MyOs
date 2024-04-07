@@ -3,7 +3,7 @@ use core::ops::Add;
 use lazy_static::lazy_static;
 use core::slice::{from_raw_parts,from_raw_parts_mut};
 use crate::sbi::shutdown;
-global_asm!(include_str!("link_app.S"));
+global_asm!(include_str!("link_app.asm"));
 use crate::sync::UPsafeCell;
 use crate::trap::Context::TrapContext;
 
