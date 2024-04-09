@@ -1,4 +1,4 @@
-use core::arch::{asm, global_asm};
+use core::arch::asm;
 use crate::trap::Context::TrapContext;
 use core::slice::{from_raw_parts,from_raw_parts_mut};
 

@@ -13,6 +13,7 @@ mod loader;
 mod sync;
 mod trap;
 mod syscall;
+mod task;
 
 
 use core::panic::PanicInfo;
