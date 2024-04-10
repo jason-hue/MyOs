@@ -1,10 +1,12 @@
 use crate::task::context::TaskContext;
 
-struct TaskControlBlock{
-    task_status: TaskStatus,
-    task_cx: TaskContext,
+#[derive(Debug,Copy, Clone)]
+pub struct TaskControlBlock{
+    pub task_status: TaskStatus,
+    pub task_cx: TaskContext,
 }
-enum TaskStatus{
+#[derive(Clone, Copy, Debug,PartialEq)]
+pub enum TaskStatus{
     UnInit,
     Ready,
     Running,

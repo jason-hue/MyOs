@@ -29,6 +29,7 @@ if __name__ == "__main__":
         for app in apps:
             app = app[:app.find(".")]
             update_base_address(user, hex(qemu_user_address+step*app_id))
+            print("编译{}".format(app))
             os.system('cargo build --bin %s --release' % app)
             app_id+=1
         update_base_address(user, hex(qemu_user_address))
@@ -36,6 +37,7 @@ if __name__ == "__main__":
     elif sys.argv[1] == "k210":
         for app in apps:
             update_base_address(user, hex(k210_user_address+step*app_id))
+            print("编译{}".format(app))
             os.system('cargo build --bin %s --release' % app)
             app_id+=1
         update_base_address(user, hex(qemu_user_address))

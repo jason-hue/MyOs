@@ -1,10 +1,11 @@
 use crate::syscall::fs::sys_write;
-use crate::syscall::process::exit;
+use crate::syscall::process::{exit, sys_yield};
 
 mod fs;
 mod process;
 const SYS_WRITE: usize = 64;
 const SYS_EXIT: usize = 93;
+const SYS_YIELD: usize = 124;
 pub fn syscall(id: usize,arg0: usize,arg1: usize,arg2: usize)->isize{
     match id {
         SYS_WRITE=>{
@@ -12,6 +13,9 @@ pub fn syscall(id: usize,arg0: usize,arg1: usize,arg2: usize)->isize{
         }
         SYS_EXIT=>{
             exit(arg0 as i32)
+        }
+        SYS_YIELD=>{
+            sys_yield()
         }
         _ => {
             panic!("Unsupported syscall_id: {}", id)

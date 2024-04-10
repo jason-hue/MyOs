@@ -3,9 +3,8 @@
 
 #[macro_use]
 extern crate user_lib;
-
 #[no_mangle]
-fn main() -> i32 {
-    println!("Hello, world!");
+fn main()->i32{
+    println!("Hello-zh");
     0
 }

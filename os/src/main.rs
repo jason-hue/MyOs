@@ -8,12 +8,13 @@ mod console;
 mod sbi;
 mod log;
 mod k210_lcd_driver;
-mod batch;
 mod loader;
 mod sync;
 mod trap;
 mod syscall;
 mod task;
+mod config;
+
 
 
 use core::panic::PanicInfo;
@@ -71,14 +72,15 @@ pub extern "C" fn  start_main(){
         sdata as usize, edata as usize
     );
     warn!(
-        "[kernel] boot_stack top=bottom={:#x}, lower_bound={:#x}",
+        "[kernel] boot_stack top_bottom={:#x}, lower_bound={:#x}",
         stack_top as usize, stack_low as usize
     );
     error!("[kernel] .bss [{:#x}, {:#x})", sbss as usize, ebss as usize);
 
     trap::init();
-    batch::init();
-    batch::run_next_app();
+    unsafe { loader::load_apps(); }
+    task::run_first_task();
+
     panic!("shutdown machine!");
 }
 fn clear_bss(){
