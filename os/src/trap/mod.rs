@@ -21,10 +21,11 @@ pub fn trap_handler(cx: &mut TrapContext) ->&mut TrapContext {
         }
         Trap::Exception(Exception::StorePageFault) | Trap::Exception(Exception::StoreFault)=>{
             println!("[kernel] PageFault in application, kernel killed it.");
-
+            panic!("[kernel] Cannot continue!");
         }
         Trap::Exception(Exception::IllegalInstruction)=>{
             println!("[kernel] IllegalInstruction in application, kernel killed it.");
+            panic!("[kernel] Cannot continue!");
         }
         _=>{
             panic!("Unsupported trap {:?}, stval = {:#x}!", scause.cause(), stval);

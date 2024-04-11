@@ -2,7 +2,7 @@ use core::arch::{asm, global_asm};
 use crate::trap::Context::TrapContext;
 use core::slice::{from_raw_parts,from_raw_parts_mut};
 use log::Level::Error;
-use crate::error;
+use crate::{error, info};
 
 global_asm!(include_str!("link_app.asm"));
 
@@ -13,12 +13,12 @@ const KERNEL_STACK_SIZE: usize = 4096*2;
 #[repr(align(4096))]
 #[derive(Copy, Clone)]
 struct UserStack {
-    data: [usize;USER_STACK_SIZE]
+    data: [u8;USER_STACK_SIZE]
 }
 #[repr(align(4096))]
 #[derive(Copy, Clone)]
 struct KernelStack{
-    data: [usize;KERNEL_STACK_SIZE]
+    data: [u8;KERNEL_STACK_SIZE]
 }
 impl UserStack{
     pub fn get_sp(&self) -> usize {
@@ -72,7 +72,9 @@ pub unsafe fn load_apps(){
         });
         let src = from_raw_parts(app_dst[i] as *const u8,app_dst[i+1]-app_dst[i]);
         let mut dst = from_raw_parts_mut(address as *mut u8,src.len());
+        info!("app{}addr={:02X}",i,address);
         dst.copy_from_slice(src);
+
     }
     unsafe {
         asm!("fence.i");
