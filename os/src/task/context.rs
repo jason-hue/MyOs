@@ -1,4 +1,3 @@
-use crate::trap::Context::TrapContext;
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
 pub struct TaskContext{
