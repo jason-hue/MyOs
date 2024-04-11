@@ -76,7 +76,6 @@ pub unsafe fn load_apps(){
         let dst = from_raw_parts_mut(address as *mut u8,src.len());
         info!("app{}addr={:02X}",i,address);
         dst.copy_from_slice(src);
-
     }
     unsafe {
         asm!("fence.i");

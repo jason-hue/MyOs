@@ -51,7 +51,6 @@ impl TaskManager {
     fn find_next_task(&self) -> Option<usize> {
         let inner = self.task_manager_inner.exclusive_access();
         let current = inner.current_task;
-        info!("Find next task");
         (current + 1..current + self.app_num + 1).map(|id| id % self.app_num).find(|id|{
             inner.tasks[*id].task_status == TaskStatus::Ready
         })
@@ -104,7 +103,7 @@ pub fn suspend_current_and_run_next(){
 }
 
 pub fn exit_current_and_run_next_task(){
-    mark_current_suspended();
+    mark_current_exited();
     run_next_task();
 }
 
@@ -120,7 +119,6 @@ fn mark_current_exited() {
     TASK_MANAGER.mark_current_exited();
 }
 pub fn run_first_task() {
-    info!("Start run first app");
     TASK_MANAGER.run_first_task();
 
 }

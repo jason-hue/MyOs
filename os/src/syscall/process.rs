@@ -1,4 +1,5 @@
-use crate::task::{suspend_current_and_run_next,exit_current_and_run_next_task};
+use crate::error;
+use crate::task::{suspend_current_and_run_next, exit_current_and_run_next_task};
 
 pub fn exit(exit_code:i32)->!{
     println!("[kernel] Application exited with code {}", exit_code);

@@ -8,7 +8,7 @@ use crate::trap::Context::TrapContext;
 use crate::syscall::syscall;
 
 pub mod Context;
-global_asm!(include_str!("trap.asm"));
+global_asm!(include_str!("trap.S"));
 
 #[no_mangle]
 pub fn trap_handler(cx: &mut TrapContext) ->&mut TrapContext {
