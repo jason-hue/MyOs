@@ -81,7 +81,7 @@ pub extern "C" fn  start_main(){
         stext as usize,
         etext as usize);
     info!("[kernel] .rodata [{:#x}, {:#x})",srodata as usize,erodata as usize);
-    error!("[kernel] .bss [{:#x}, {:#x})", sbss as usize, ebss as usize);
+    info!("[kernel] .bss [{:#x}, {:#x})", sbss as usize, ebss as usize);
     info!("[kernel] .stack_bss {:#x}",stack_bss as usize);
     trap::init();
     unsafe { loader::load_apps(); }
