@@ -8,7 +8,7 @@ SECTIONS{
     stext = .;
     .text : {
         *(.text.entry)
-        *(.text.*)
+        *(.text .text.*)
         }
     . = ALIGN(4K);
     etext = .;
@@ -27,6 +27,7 @@ SECTIONS{
     . = ALIGN(4K);
     edata = .;
     .bss : {
+        stack_bss = .;
         *(.bss.stack)
         sbss = .;
         *(.bss .bss.*)

@@ -45,15 +45,17 @@ pub extern "C" fn  start_main(){
     clear_bss();
     extern "C"{
         fn stext();
-    fn etext();
-    fn srodata();
-    fn erodata();
-    fn sdata();
-    fn edata();
-    fn sbss();
-    fn ebss();
-    fn stack_low();
-    fn stack_top();
+        fn etext();
+        fn srodata();
+        fn erodata();
+        fn sdata();
+        fn edata();
+        fn sbss();
+        fn ebss();
+        fn stack_low();
+        fn stack_top();
+        fn stack_bss();
+
     }
     info!("hello_world!");
     error!("hello_world！");
@@ -75,7 +77,11 @@ pub extern "C" fn  start_main(){
         "[kernel] boot_stack top_bottom={:#x}, lower_bound={:#x}",
         stack_top as usize, stack_low as usize
     );
+    info!("[kernel] .text [{:#x}, {:#x})",
+        stext as usize,
+        etext as usize);
     error!("[kernel] .bss [{:#x}, {:#x})", sbss as usize, ebss as usize);
+    info!("[kernel] .stack_bss {:#x}",stack_bss as usize);
 
     trap::init();
     unsafe { loader::load_apps(); }

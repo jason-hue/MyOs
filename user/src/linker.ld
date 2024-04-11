@@ -4,36 +4,28 @@ BASE_ADDRESS = 0x80400000;
 
 SECTIONS{
     . = BASE_ADDRESS;
-    skernel = .;
-    stext = .;
     .text : {
         *(.text.entry)
         *(.text.*)
         }
     . = ALIGN(4K);
-    etext = .;
-    srodata = .;
     .rodata : {
         *(.rodata .rodata.*)
         *(.srodata .srodata.*)
         }
     . = ALIGN(4K);
-    erodata = .;
-    sdata = .;
     .data : {
         *(.data .data.*)
         *(.sdata .sdata.*)
         }
     . = ALIGN(4K);
-    edata = .;
     .bss : {
         sbss = .;
         *(.bss .bss.*)
         *(.sbss .sbss.*)
+        ebss = .;
         }
     . = ALIGN(4K);
-    ebss = .;
-    ekernel = .;
      /DISCARD/ : {
             *(.eh_frame)
             *(.debug*)
