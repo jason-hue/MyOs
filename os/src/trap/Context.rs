@@ -8,10 +8,10 @@ impl TrapContext{
     fn set_sp(&mut self, sp: usize){
         self.x[2] = sp;
     }
-    pub fn init_trap_context(entry_pc: usize, sp: usize) -> TrapContext {
+    pub fn init_trap_context(entry_pc: usize, sp: usize) -> Self {
         let mut sstatus = sstatus::read();
         sstatus.set_spp(SPP::User);
-        let mut cx = TrapContext{
+        let mut cx = Self{
             x: [0;32],
             sstatus,
             sepc: entry_pc,

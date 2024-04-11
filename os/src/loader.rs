@@ -10,6 +10,7 @@ const MAX_APP: usize =16 ;
 const BASE_ADDRESS:usize = 0x80400000;
 const USER_STACK_SIZE: usize = 4096*2;
 const KERNEL_STACK_SIZE: usize = 4096*2;
+const APP_MAX_SIZE: usize = 0x20000;
 #[repr(align(4096))]
 #[derive(Copy, Clone)]
 struct UserStack {
@@ -54,7 +55,7 @@ pub fn get_app_num() -> usize {
     app_num
 }
 fn get_base_address(app_id:usize) -> usize {
-    BASE_ADDRESS+app_id*0x20000
+    BASE_ADDRESS+app_id*APP_MAX_SIZE
 }
 pub unsafe fn load_apps(){
     extern "C"{
@@ -63,15 +64,16 @@ pub unsafe fn load_apps(){
     let num_app_ptr = _num_app as usize as *const usize;
     let app_num = get_app_num();
     let app_dst = from_raw_parts(num_app_ptr.add(1), app_num+1);
+    info!("app sourece addr: {:#x?}",app_dst);
     for i in 0..app_num{
         let address = get_base_address(i);
-        (address..address+0x20000).for_each(|addr|{
+        (address..address + APP_MAX_SIZE).for_each(|addr|{
             unsafe {
                 (addr as *mut u8).write_volatile(0);
             }
         });
         let src = from_raw_parts(app_dst[i] as *const u8,app_dst[i+1]-app_dst[i]);
-        let mut dst = from_raw_parts_mut(address as *mut u8,src.len());
+        let dst = from_raw_parts_mut(address as *mut u8,src.len());
         info!("app{}addr={:02X}",i,address);
         dst.copy_from_slice(src);
 

@@ -6,7 +6,7 @@ SECTIONS{
     . = BASE_ADDRESS;
     .text : {
         *(.text.entry)
-        *(.text.*)
+        *(.text .text.*)
         }
     . = ALIGN(4K);
     .rodata : {

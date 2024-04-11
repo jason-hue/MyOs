@@ -1,16 +1,14 @@
-use core::arch::global_asm;
-use lazy_static::lazy_static;
+use lazy_static::*;
 use crate::task::task::{TaskControlBlock, TaskStatus};
 use crate::sync::UPsafeCell;
 use crate::config::MAX_APP;
-use crate::info;
+use crate::{error, info};
 use crate::loader::{get_app_num, init_app_cx};
 use crate::sbi::shutdown;
 use crate::task::context::TaskContext;
 use crate::task::switch::_switch;
 mod context;
 mod switch;
-#[allow(clippy::module_inception)]
 mod task;
 
 pub struct TaskManager{
@@ -20,30 +18,6 @@ pub struct TaskManager{
 struct TaskManagerInner{
     current_task: usize,
     tasks: [TaskControlBlock;MAX_APP]
-}
-lazy_static!{
-    pub static ref TASK_MANAGER: TaskManager = {
-        let num_app = get_app_num();
-        let mut tasks = [TaskControlBlock{
-            task_status: TaskStatus::UnInit,
-            task_cx: TaskContext::zero_cx(),
-        };MAX_APP];
-        for (i, task) in tasks.iter_mut().enumerate() {
-            task.task_cx = TaskContext::go_to_restore(init_app_cx(i));
-            task.task_status = TaskStatus::Ready;
-        }
-        TaskManager{
-            app_num: num_app,
-            task_manager_inner: UPsafeCell::new(
-                TaskManagerInner{
-                    current_task: 0,
-                    tasks,
-                }
-            )
-        }
-
-    };
-
 }
 impl TaskManager {
     fn mark_current_suspended(&self){
@@ -98,6 +72,30 @@ impl TaskManager {
         panic!("unreachable in run_first_task!")
     }
 
+
+}
+lazy_static!{
+    pub static ref TASK_MANAGER: TaskManager = {
+        let num_app = get_app_num();
+        let mut tasks = [TaskControlBlock{
+            task_status: TaskStatus::UnInit,
+            task_cx: TaskContext::zero_cx(),
+        };MAX_APP];
+        for (i, task) in tasks.iter_mut().enumerate() {
+            task.task_cx = TaskContext::go_to_restore(init_app_cx(i));
+            task.task_status = TaskStatus::Ready;
+        }
+        TaskManager{
+            app_num: num_app,
+            task_manager_inner: UPsafeCell::new(
+                TaskManagerInner{
+                    current_task: 0,
+                    tasks,
+                }
+            )
+        }
+
+    };
 
 }
 pub fn suspend_current_and_run_next(){
