@@ -20,10 +20,10 @@ SECTIONS{
         }
     . = ALIGN(4K);
     .bss : {
-        sbss = .;
+        start_bss = .;
         *(.bss .bss.*)
         *(.sbss .sbss.*)
-        ebss = .;
+        end_bss = .;
         }
     . = ALIGN(4K);
      /DISCARD/ : {
