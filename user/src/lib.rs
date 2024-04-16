@@ -28,7 +28,7 @@ fn main() -> i32 {
     panic!("Cannot find main!");
 }
 
-use crate::syscall::{sys_exit, sys_write, sys_yield};
+use crate::syscall::{sys_exit, sys_get_time, sys_write, sys_yield};
 
 pub fn write(fd:usize, buffer:&[u8]) -> isize {
     sys_write(fd, buffer.as_ptr(),buffer.len())
@@ -38,4 +38,7 @@ pub fn exit(exit_code:i32)->isize{
 }
 pub fn _yield() -> isize {
     sys_yield()
+}
+pub fn get_time() -> isize {
+    sys_get_time()
 }

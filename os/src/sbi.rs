@@ -1,6 +1,8 @@
 #![allow(unused)]
-const SBI_CONSOLE_PUTCHAR:usize = 1;
+const SBI_CONSOLE_PUTCHAR: usize = 1;
+const SBI_SET_TIME: usize = 0;
 use core::arch::asm;
+use sbi_rt::Timer;
 
 #[inline(always)]
 fn sbi_call(which: usize,arg0: usize,arg1: usize,arg2: usize)->usize{
@@ -27,4 +29,7 @@ pub fn shutdown(failure: bool) -> ! {
         system_reset(Shutdown, SystemFailure);
     }
     unreachable!()
+}
+pub fn set_timer(timer: usize){
+    sbi_call(SBI_SET_TIME,timer,0,0);
 }

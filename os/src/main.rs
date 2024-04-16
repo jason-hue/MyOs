@@ -14,7 +14,7 @@ mod trap;
 mod syscall;
 mod task;
 mod config;
-
+mod timer;
 
 
 use core::panic::PanicInfo;
@@ -85,6 +85,8 @@ pub extern "C" fn  start_main(){
     info!("[kernel] .stack_bss {:#x}",stack_bss as usize);
     trap::init();
     unsafe { loader::load_apps(); }
+    trap::enable_timer_interrupt();
+    timer::set_next_trigger();
     task::run_first_task();
 
     panic!("shutdown machine!");
