@@ -1,11 +1,20 @@
-/home/knifefire/下载/CLion-2024.1/clion-2024.1/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/home/knifefire/下载/CLion-2024.1/clion-2024.1/bin/ninja/linux/x64/ninja -DCMAKE_C_COMPILER=/usr/local/riscv64-unknown-elf-gcc/bin/riscv64-unknown-elf-gcc -DCMAKE_CXX_COMPILER=/usr/local/riscv64-unknown-elf-gcc/bin/riscv64-unknown-elf-g++ -G Ninja -S /home/knifefire/MyOs/C-user -B /home/knifefire/MyOs/C-user/cmake-build-debug
+/home/knifefire/下载/CLion-2024.1/clion-2024.1/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=/usr/local/riscv64-unknown-elf-gcc/bin/riscv64-unknown-elf-gcc -DCMAKE_CXX_COMPILER=/usr/local/riscv64-unknown-elf-gcc/bin/riscv64-unknown-elf-g++ -G "CodeBlocks - Unix Makefiles" -S /home/knifefire/MyOs/C-user -B /home/knifefire/MyOs/C-user/cmake-build-debug
+CMake Deprecation Warning:
+  Support for "Extra Generators" like
+
+    CodeBlocks
+
+  is deprecated and will be removed from a future version of CMake.  IDEs may
+  use the cmake-file-api(7) to view CMake-generated project build trees.
+
+
 -- The C compiler identification is GNU 10.1.0
 -- Detecting C compiler ABI info
 -- Detecting C compiler ABI info - done
 -- Check for working C compiler: /usr/local/riscv64-unknown-elf-gcc/bin/riscv64-unknown-elf-gcc - skipped
 -- Detecting C compile features
 -- Detecting C compile features - done
--- Configuring done (0.2s)
+-- Configuring done (0.3s)
 -- Generating done (0.0s)
 CMake Warning:
   Manually-specified variables were not used by the project:

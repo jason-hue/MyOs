@@ -39,8 +39,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "/home/knifefire/MyOs/C-user/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-4DeUHh"
-      binary: "/home/knifefire/MyOs/C-user/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-4DeUHh"
+      source: "/home/knifefire/MyOs/C-user/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-eLq1d6"
+      binary: "/home/knifefire/MyOs/C-user/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-eLq1d6"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
@@ -49,10 +49,13 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: '/home/knifefire/MyOs/C-user/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-4DeUHh'
+        Change Dir: '/home/knifefire/MyOs/C-user/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-eLq1d6'
         
-        Run Build Command(s): /home/knifefire/下载/CLion-2024.1/clion-2024.1/bin/ninja/linux/x64/ninja -v cmTC_46b41
-        [1/2] /usr/local/riscv64-unknown-elf-gcc/bin/riscv64-unknown-elf-gcc   -fdiagnostics-color=always   -v -o CMakeFiles/cmTC_46b41.dir/CMakeCCompilerABI.c.o -c '/home/knifefire/下载/CLion-2024.1/clion-2024.1/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeCCompilerABI.c'
+        Run Build Command(s): /home/knifefire/下载/CLion-2024.1/clion-2024.1/bin/cmake/linux/x64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_f7e7a/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_f7e7a.dir/build.make CMakeFiles/cmTC_f7e7a.dir/build
+        gmake[1]: Entering directory '/home/knifefire/MyOs/C-user/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-eLq1d6'
+        Building C object CMakeFiles/cmTC_f7e7a.dir/CMakeCCompilerABI.c.o
+        /usr/local/riscv64-unknown-elf-gcc/bin/riscv64-unknown-elf-gcc   -fdiagnostics-color=always   -v -o CMakeFiles/cmTC_f7e7a.dir/CMakeCCompilerABI.c.o -c /home/knifefire/下载/CLion-2024.1/clion-2024.1/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeCCompilerABI.c
         Using built-in specs.
         COLLECT_GCC=/usr/local/riscv64-unknown-elf-gcc/bin/riscv64-unknown-elf-gcc
         Target: riscv64-unknown-elf
@@ -60,8 +63,8 @@ events:
         Thread model: single
         Supported LTO compression algorithms: zlib
         gcc version 10.1.0 (SiFive GCC 10.1.0-2020.08.2) 
-        COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-o' 'CMakeFiles/cmTC_46b41.dir/CMakeCCompilerABI.c.o' '-c' '-march=rv64imafdc' '-mabi=lp64d' '-march=rv64imafdc'
-         /usr/local/riscv64-unknown-elf-gcc/bin/../libexec/gcc/riscv64-unknown-elf/10.1.0/cc1 -quiet -v -imultilib rv64imafdc/lp64d -iprefix /usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/ -isysroot /usr/local/riscv64-unknown-elf-gcc/bin/../riscv64-unknown-elf /home/knifefire/下载/CLion-2024.1/clion-2024.1/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -march=rv64imafdc -mabi=lp64d -march=rv64imafdc -auxbase-strip CMakeFiles/cmTC_46b41.dir/CMakeCCompilerABI.c.o -version -fdiagnostics-color=always -o /tmp/ccahWA7G.s
+        COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-o' 'CMakeFiles/cmTC_f7e7a.dir/CMakeCCompilerABI.c.o' '-c' '-march=rv64imafdc' '-mabi=lp64d' '-march=rv64imafdc'
+         /usr/local/riscv64-unknown-elf-gcc/bin/../libexec/gcc/riscv64-unknown-elf/10.1.0/cc1 -quiet -v -imultilib rv64imafdc/lp64d -iprefix /usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/ -isysroot /usr/local/riscv64-unknown-elf-gcc/bin/../riscv64-unknown-elf /home/knifefire/下载/CLion-2024.1/clion-2024.1/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -march=rv64imafdc -mabi=lp64d -march=rv64imafdc -auxbase-strip CMakeFiles/cmTC_f7e7a.dir/CMakeCCompilerABI.c.o -version -fdiagnostics-color=always -o /tmp/ccsjrjxZ.s
         GNU C17 (SiFive GCC 10.1.0-2020.08.2) version 10.1.0 (riscv64-unknown-elf)
         	compiled by GNU C version 5.4.0 20160609, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version isl-0.18-GMP
         
@@ -82,13 +85,15 @@ events:
         
         GGC heuristics: --param ggc-min-expand=30 --param ggc-min-heapsize=4096
         Compiler executable checksum: 3bbd99ac3849cec39f78c02caeb65625
-        COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-o' 'CMakeFiles/cmTC_46b41.dir/CMakeCCompilerABI.c.o' '-c' '-march=rv64imafdc' '-mabi=lp64d' '-march=rv64imafdc'
-         /usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/bin/as -v --traditional-format -march=rv64imafdc -march=rv64imafdc -mabi=lp64d -o CMakeFiles/cmTC_46b41.dir/CMakeCCompilerABI.c.o /tmp/ccahWA7G.s
+        COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-o' 'CMakeFiles/cmTC_f7e7a.dir/CMakeCCompilerABI.c.o' '-c' '-march=rv64imafdc' '-mabi=lp64d' '-march=rv64imafdc'
+         /usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/bin/as -v --traditional-format -march=rv64imafdc -march=rv64imafdc -mabi=lp64d -o CMakeFiles/cmTC_f7e7a.dir/CMakeCCompilerABI.c.o /tmp/ccsjrjxZ.s
         GNU assembler version 2.35 (riscv64-unknown-elf) using BFD version (SiFive Binutils 2.35.0-2020.08.2) 2.35
         COMPILER_PATH=/usr/local/riscv64-unknown-elf-gcc/bin/../libexec/gcc/riscv64-unknown-elf/10.1.0/:/usr/local/riscv64-unknown-elf-gcc/bin/../libexec/gcc/:/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/bin/
         LIBRARY_PATH=/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/rv64imafdc/lp64d/:/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/lib/rv64imafdc/lp64d/:/usr/local/riscv64-unknown-elf-gcc/bin/../riscv64-unknown-elf/lib/rv64imafdc/lp64d/:/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/:/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/:/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/lib/:/usr/local/riscv64-unknown-elf-gcc/bin/../riscv64-unknown-elf/lib/
-        COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-o' 'CMakeFiles/cmTC_46b41.dir/CMakeCCompilerABI.c.o' '-c' '-march=rv64imafdc' '-mabi=lp64d' '-march=rv64imafdc'
-        [2/2] : && /usr/local/riscv64-unknown-elf-gcc/bin/riscv64-unknown-elf-gcc  -v CMakeFiles/cmTC_46b41.dir/CMakeCCompilerABI.c.o -o cmTC_46b41   && :
+        COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-o' 'CMakeFiles/cmTC_f7e7a.dir/CMakeCCompilerABI.c.o' '-c' '-march=rv64imafdc' '-mabi=lp64d' '-march=rv64imafdc'
+        Linking C executable cmTC_f7e7a
+        /home/knifefire/下载/CLion-2024.1/clion-2024.1/bin/cmake/linux/x64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f7e7a.dir/link.txt --verbose=1
+        /usr/local/riscv64-unknown-elf-gcc/bin/riscv64-unknown-elf-gcc  -v CMakeFiles/cmTC_f7e7a.dir/CMakeCCompilerABI.c.o -o cmTC_f7e7a 
         Using built-in specs.
         COLLECT_GCC=/usr/local/riscv64-unknown-elf-gcc/bin/riscv64-unknown-elf-gcc
         COLLECT_LTO_WRAPPER=/usr/local/riscv64-unknown-elf-gcc/bin/../libexec/gcc/riscv64-unknown-elf/10.1.0/lto-wrapper
@@ -99,9 +104,10 @@ events:
         gcc version 10.1.0 (SiFive GCC 10.1.0-2020.08.2) 
         COMPILER_PATH=/usr/local/riscv64-unknown-elf-gcc/bin/../libexec/gcc/riscv64-unknown-elf/10.1.0/:/usr/local/riscv64-unknown-elf-gcc/bin/../libexec/gcc/:/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/bin/
         LIBRARY_PATH=/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/rv64imafdc/lp64d/:/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/lib/rv64imafdc/lp64d/:/usr/local/riscv64-unknown-elf-gcc/bin/../riscv64-unknown-elf/lib/rv64imafdc/lp64d/:/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/:/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/:/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/lib/:/usr/local/riscv64-unknown-elf-gcc/bin/../riscv64-unknown-elf/lib/
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_46b41' '-march=rv64imafdc' '-mabi=lp64d' '-march=rv64imafdc'
-         /usr/local/riscv64-unknown-elf-gcc/bin/../libexec/gcc/riscv64-unknown-elf/10.1.0/collect2 -plugin /usr/local/riscv64-unknown-elf-gcc/bin/../libexec/gcc/riscv64-unknown-elf/10.1.0/liblto_plugin.so -plugin-opt=/usr/local/riscv64-unknown-elf-gcc/bin/../libexec/gcc/riscv64-unknown-elf/10.1.0/lto-wrapper -plugin-opt=-fresolution=/tmp/ccpNThSP.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgloss -plugin-opt=-pass-through=-lgcc --sysroot=/usr/local/riscv64-unknown-elf-gcc/bin/../riscv64-unknown-elf -melf64lriscv -o cmTC_46b41 /usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/lib/rv64imafdc/lp64d/crt0.o /usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/rv64imafdc/lp64d/crtbegin.o -L/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/rv64imafdc/lp64d -L/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/lib/rv64imafdc/lp64d -L/usr/local/riscv64-unknown-elf-gcc/bin/../riscv64-unknown-elf/lib/rv64imafdc/lp64d -L/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0 -L/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc -L/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/lib -L/usr/local/riscv64-unknown-elf-gcc/bin/../riscv64-unknown-elf/lib CMakeFiles/cmTC_46b41.dir/CMakeCCompilerABI.c.o -lgcc --start-group -lc -lgloss --end-group -lgcc /usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/rv64imafdc/lp64d/crtend.o
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_46b41' '-march=rv64imafdc' '-mabi=lp64d' '-march=rv64imafdc'
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_f7e7a' '-march=rv64imafdc' '-mabi=lp64d' '-march=rv64imafdc'
+         /usr/local/riscv64-unknown-elf-gcc/bin/../libexec/gcc/riscv64-unknown-elf/10.1.0/collect2 -plugin /usr/local/riscv64-unknown-elf-gcc/bin/../libexec/gcc/riscv64-unknown-elf/10.1.0/liblto_plugin.so -plugin-opt=/usr/local/riscv64-unknown-elf-gcc/bin/../libexec/gcc/riscv64-unknown-elf/10.1.0/lto-wrapper -plugin-opt=-fresolution=/tmp/ccAMlbT8.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgloss -plugin-opt=-pass-through=-lgcc --sysroot=/usr/local/riscv64-unknown-elf-gcc/bin/../riscv64-unknown-elf -melf64lriscv -o cmTC_f7e7a /usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/lib/rv64imafdc/lp64d/crt0.o /usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/rv64imafdc/lp64d/crtbegin.o -L/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/rv64imafdc/lp64d -L/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/lib/rv64imafdc/lp64d -L/usr/local/riscv64-unknown-elf-gcc/bin/../riscv64-unknown-elf/lib/rv64imafdc/lp64d -L/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0 -L/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc -L/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/lib -L/usr/local/riscv64-unknown-elf-gcc/bin/../riscv64-unknown-elf/lib CMakeFiles/cmTC_f7e7a.dir/CMakeCCompilerABI.c.o -lgcc --start-group -lc -lgloss --end-group -lgcc /usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/rv64imafdc/lp64d/crtend.o
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_f7e7a' '-march=rv64imafdc' '-mabi=lp64d' '-march=rv64imafdc'
+        gmake[1]: Leaving directory '/home/knifefire/MyOs/C-user/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-eLq1d6'
         
       exitCode: 0
   -
@@ -133,10 +139,13 @@ events:
     message: |
       Parsed C implicit link information:
         link line regex: [^( *|.*[/\\])(riscv64-unknown-elf-ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
-        ignore line: [Change Dir: '/home/knifefire/MyOs/C-user/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-4DeUHh']
+        ignore line: [Change Dir: '/home/knifefire/MyOs/C-user/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-eLq1d6']
         ignore line: []
-        ignore line: [Run Build Command(s): /home/knifefire/下载/CLion-2024.1/clion-2024.1/bin/ninja/linux/x64/ninja -v cmTC_46b41]
-        ignore line: [[1/2] /usr/local/riscv64-unknown-elf-gcc/bin/riscv64-unknown-elf-gcc   -fdiagnostics-color=always   -v -o CMakeFiles/cmTC_46b41.dir/CMakeCCompilerABI.c.o -c '/home/knifefire/下载/CLion-2024.1/clion-2024.1/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeCCompilerABI.c']
+        ignore line: [Run Build Command(s): /home/knifefire/下载/CLion-2024.1/clion-2024.1/bin/cmake/linux/x64/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_f7e7a/fast]
+        ignore line: [/usr/bin/gmake  -f CMakeFiles/cmTC_f7e7a.dir/build.make CMakeFiles/cmTC_f7e7a.dir/build]
+        ignore line: [gmake[1]: Entering directory '/home/knifefire/MyOs/C-user/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-eLq1d6']
+        ignore line: [Building C object CMakeFiles/cmTC_f7e7a.dir/CMakeCCompilerABI.c.o]
+        ignore line: [/usr/local/riscv64-unknown-elf-gcc/bin/riscv64-unknown-elf-gcc   -fdiagnostics-color=always   -v -o CMakeFiles/cmTC_f7e7a.dir/CMakeCCompilerABI.c.o -c /home/knifefire/下载/CLion-2024.1/clion-2024.1/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeCCompilerABI.c]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=/usr/local/riscv64-unknown-elf-gcc/bin/riscv64-unknown-elf-gcc]
         ignore line: [Target: riscv64-unknown-elf]
@@ -144,8 +153,8 @@ events:
         ignore line: [Thread model: single]
         ignore line: [Supported LTO compression algorithms: zlib]
         ignore line: [gcc version 10.1.0 (SiFive GCC 10.1.0-2020.08.2) ]
-        ignore line: [COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-o' 'CMakeFiles/cmTC_46b41.dir/CMakeCCompilerABI.c.o' '-c' '-march=rv64imafdc' '-mabi=lp64d' '-march=rv64imafdc']
-        ignore line: [ /usr/local/riscv64-unknown-elf-gcc/bin/../libexec/gcc/riscv64-unknown-elf/10.1.0/cc1 -quiet -v -imultilib rv64imafdc/lp64d -iprefix /usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/ -isysroot /usr/local/riscv64-unknown-elf-gcc/bin/../riscv64-unknown-elf /home/knifefire/下载/CLion-2024.1/clion-2024.1/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -march=rv64imafdc -mabi=lp64d -march=rv64imafdc -auxbase-strip CMakeFiles/cmTC_46b41.dir/CMakeCCompilerABI.c.o -version -fdiagnostics-color=always -o /tmp/ccahWA7G.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-o' 'CMakeFiles/cmTC_f7e7a.dir/CMakeCCompilerABI.c.o' '-c' '-march=rv64imafdc' '-mabi=lp64d' '-march=rv64imafdc']
+        ignore line: [ /usr/local/riscv64-unknown-elf-gcc/bin/../libexec/gcc/riscv64-unknown-elf/10.1.0/cc1 -quiet -v -imultilib rv64imafdc/lp64d -iprefix /usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/ -isysroot /usr/local/riscv64-unknown-elf-gcc/bin/../riscv64-unknown-elf /home/knifefire/下载/CLion-2024.1/clion-2024.1/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -march=rv64imafdc -mabi=lp64d -march=rv64imafdc -auxbase-strip CMakeFiles/cmTC_f7e7a.dir/CMakeCCompilerABI.c.o -version -fdiagnostics-color=always -o /tmp/ccsjrjxZ.s]
         ignore line: [GNU C17 (SiFive GCC 10.1.0-2020.08.2) version 10.1.0 (riscv64-unknown-elf)]
         ignore line: [	compiled by GNU C version 5.4.0 20160609  GMP version 6.1.0  MPFR version 3.1.4  MPC version 1.0.3  isl version isl-0.18-GMP]
         ignore line: []
@@ -166,13 +175,15 @@ events:
         ignore line: []
         ignore line: [GGC heuristics: --param ggc-min-expand=30 --param ggc-min-heapsize=4096]
         ignore line: [Compiler executable checksum: 3bbd99ac3849cec39f78c02caeb65625]
-        ignore line: [COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-o' 'CMakeFiles/cmTC_46b41.dir/CMakeCCompilerABI.c.o' '-c' '-march=rv64imafdc' '-mabi=lp64d' '-march=rv64imafdc']
-        ignore line: [ /usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/bin/as -v --traditional-format -march=rv64imafdc -march=rv64imafdc -mabi=lp64d -o CMakeFiles/cmTC_46b41.dir/CMakeCCompilerABI.c.o /tmp/ccahWA7G.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-o' 'CMakeFiles/cmTC_f7e7a.dir/CMakeCCompilerABI.c.o' '-c' '-march=rv64imafdc' '-mabi=lp64d' '-march=rv64imafdc']
+        ignore line: [ /usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/bin/as -v --traditional-format -march=rv64imafdc -march=rv64imafdc -mabi=lp64d -o CMakeFiles/cmTC_f7e7a.dir/CMakeCCompilerABI.c.o /tmp/ccsjrjxZ.s]
         ignore line: [GNU assembler version 2.35 (riscv64-unknown-elf) using BFD version (SiFive Binutils 2.35.0-2020.08.2) 2.35]
         ignore line: [COMPILER_PATH=/usr/local/riscv64-unknown-elf-gcc/bin/../libexec/gcc/riscv64-unknown-elf/10.1.0/:/usr/local/riscv64-unknown-elf-gcc/bin/../libexec/gcc/:/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/bin/]
         ignore line: [LIBRARY_PATH=/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/rv64imafdc/lp64d/:/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/lib/rv64imafdc/lp64d/:/usr/local/riscv64-unknown-elf-gcc/bin/../riscv64-unknown-elf/lib/rv64imafdc/lp64d/:/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/:/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/:/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/lib/:/usr/local/riscv64-unknown-elf-gcc/bin/../riscv64-unknown-elf/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-o' 'CMakeFiles/cmTC_46b41.dir/CMakeCCompilerABI.c.o' '-c' '-march=rv64imafdc' '-mabi=lp64d' '-march=rv64imafdc']
-        ignore line: [[2/2] : && /usr/local/riscv64-unknown-elf-gcc/bin/riscv64-unknown-elf-gcc  -v CMakeFiles/cmTC_46b41.dir/CMakeCCompilerABI.c.o -o cmTC_46b41   && :]
+        ignore line: [COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-o' 'CMakeFiles/cmTC_f7e7a.dir/CMakeCCompilerABI.c.o' '-c' '-march=rv64imafdc' '-mabi=lp64d' '-march=rv64imafdc']
+        ignore line: [Linking C executable cmTC_f7e7a]
+        ignore line: [/home/knifefire/下载/CLion-2024.1/clion-2024.1/bin/cmake/linux/x64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f7e7a.dir/link.txt --verbose=1]
+        ignore line: [/usr/local/riscv64-unknown-elf-gcc/bin/riscv64-unknown-elf-gcc  -v CMakeFiles/cmTC_f7e7a.dir/CMakeCCompilerABI.c.o -o cmTC_f7e7a ]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=/usr/local/riscv64-unknown-elf-gcc/bin/riscv64-unknown-elf-gcc]
         ignore line: [COLLECT_LTO_WRAPPER=/usr/local/riscv64-unknown-elf-gcc/bin/../libexec/gcc/riscv64-unknown-elf/10.1.0/lto-wrapper]
@@ -183,13 +194,13 @@ events:
         ignore line: [gcc version 10.1.0 (SiFive GCC 10.1.0-2020.08.2) ]
         ignore line: [COMPILER_PATH=/usr/local/riscv64-unknown-elf-gcc/bin/../libexec/gcc/riscv64-unknown-elf/10.1.0/:/usr/local/riscv64-unknown-elf-gcc/bin/../libexec/gcc/:/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/bin/]
         ignore line: [LIBRARY_PATH=/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/rv64imafdc/lp64d/:/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/lib/rv64imafdc/lp64d/:/usr/local/riscv64-unknown-elf-gcc/bin/../riscv64-unknown-elf/lib/rv64imafdc/lp64d/:/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/:/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/:/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/lib/:/usr/local/riscv64-unknown-elf-gcc/bin/../riscv64-unknown-elf/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_46b41' '-march=rv64imafdc' '-mabi=lp64d' '-march=rv64imafdc']
-        link line: [ /usr/local/riscv64-unknown-elf-gcc/bin/../libexec/gcc/riscv64-unknown-elf/10.1.0/collect2 -plugin /usr/local/riscv64-unknown-elf-gcc/bin/../libexec/gcc/riscv64-unknown-elf/10.1.0/liblto_plugin.so -plugin-opt=/usr/local/riscv64-unknown-elf-gcc/bin/../libexec/gcc/riscv64-unknown-elf/10.1.0/lto-wrapper -plugin-opt=-fresolution=/tmp/ccpNThSP.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgloss -plugin-opt=-pass-through=-lgcc --sysroot=/usr/local/riscv64-unknown-elf-gcc/bin/../riscv64-unknown-elf -melf64lriscv -o cmTC_46b41 /usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/lib/rv64imafdc/lp64d/crt0.o /usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/rv64imafdc/lp64d/crtbegin.o -L/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/rv64imafdc/lp64d -L/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/lib/rv64imafdc/lp64d -L/usr/local/riscv64-unknown-elf-gcc/bin/../riscv64-unknown-elf/lib/rv64imafdc/lp64d -L/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0 -L/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc -L/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/lib -L/usr/local/riscv64-unknown-elf-gcc/bin/../riscv64-unknown-elf/lib CMakeFiles/cmTC_46b41.dir/CMakeCCompilerABI.c.o -lgcc --start-group -lc -lgloss --end-group -lgcc /usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/rv64imafdc/lp64d/crtend.o]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_f7e7a' '-march=rv64imafdc' '-mabi=lp64d' '-march=rv64imafdc']
+        link line: [ /usr/local/riscv64-unknown-elf-gcc/bin/../libexec/gcc/riscv64-unknown-elf/10.1.0/collect2 -plugin /usr/local/riscv64-unknown-elf-gcc/bin/../libexec/gcc/riscv64-unknown-elf/10.1.0/liblto_plugin.so -plugin-opt=/usr/local/riscv64-unknown-elf-gcc/bin/../libexec/gcc/riscv64-unknown-elf/10.1.0/lto-wrapper -plugin-opt=-fresolution=/tmp/ccAMlbT8.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgloss -plugin-opt=-pass-through=-lgcc --sysroot=/usr/local/riscv64-unknown-elf-gcc/bin/../riscv64-unknown-elf -melf64lriscv -o cmTC_f7e7a /usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/lib/rv64imafdc/lp64d/crt0.o /usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/rv64imafdc/lp64d/crtbegin.o -L/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/rv64imafdc/lp64d -L/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/lib/rv64imafdc/lp64d -L/usr/local/riscv64-unknown-elf-gcc/bin/../riscv64-unknown-elf/lib/rv64imafdc/lp64d -L/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0 -L/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc -L/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/lib -L/usr/local/riscv64-unknown-elf-gcc/bin/../riscv64-unknown-elf/lib CMakeFiles/cmTC_f7e7a.dir/CMakeCCompilerABI.c.o -lgcc --start-group -lc -lgloss --end-group -lgcc /usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/rv64imafdc/lp64d/crtend.o]
           arg [/usr/local/riscv64-unknown-elf-gcc/bin/../libexec/gcc/riscv64-unknown-elf/10.1.0/collect2] ==> ignore
           arg [-plugin] ==> ignore
           arg [/usr/local/riscv64-unknown-elf-gcc/bin/../libexec/gcc/riscv64-unknown-elf/10.1.0/liblto_plugin.so] ==> ignore
           arg [-plugin-opt=/usr/local/riscv64-unknown-elf-gcc/bin/../libexec/gcc/riscv64-unknown-elf/10.1.0/lto-wrapper] ==> ignore
-          arg [-plugin-opt=-fresolution=/tmp/ccpNThSP.res] ==> ignore
+          arg [-plugin-opt=-fresolution=/tmp/ccAMlbT8.res] ==> ignore
           arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
           arg [-plugin-opt=-pass-through=-lc] ==> ignore
           arg [-plugin-opt=-pass-through=-lgloss] ==> ignore
@@ -197,7 +208,7 @@ events:
           arg [--sysroot=/usr/local/riscv64-unknown-elf-gcc/bin/../riscv64-unknown-elf] ==> ignore
           arg [-melf64lriscv] ==> ignore
           arg [-o] ==> ignore
-          arg [cmTC_46b41] ==> ignore
+          arg [cmTC_f7e7a] ==> ignore
           arg [/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/lib/rv64imafdc/lp64d/crt0.o] ==> obj [/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/lib/rv64imafdc/lp64d/crt0.o]
           arg [/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/rv64imafdc/lp64d/crtbegin.o] ==> obj [/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/rv64imafdc/lp64d/crtbegin.o]
           arg [-L/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/rv64imafdc/lp64d] ==> dir [/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/rv64imafdc/lp64d]
@@ -207,7 +218,7 @@ events:
           arg [-L/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc] ==> dir [/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc]
           arg [-L/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/lib] ==> dir [/usr/local/riscv64-unknown-elf-gcc/bin/../lib/gcc/riscv64-unknown-elf/10.1.0/../../../../riscv64-unknown-elf/lib]
           arg [-L/usr/local/riscv64-unknown-elf-gcc/bin/../riscv64-unknown-elf/lib] ==> dir [/usr/local/riscv64-unknown-elf-gcc/bin/../riscv64-unknown-elf/lib]
-          arg [CMakeFiles/cmTC_46b41.dir/CMakeCCompilerABI.c.o] ==> ignore
+          arg [CMakeFiles/cmTC_f7e7a.dir/CMakeCCompilerABI.c.o] ==> ignore
           arg [-lgcc] ==> lib [gcc]
           arg [--start-group] ==> ignore
           arg [-lc] ==> lib [c]
