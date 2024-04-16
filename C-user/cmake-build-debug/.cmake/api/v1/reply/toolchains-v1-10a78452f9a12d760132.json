@@ -1,0 +1,50 @@
+{
+	"kind" : "toolchains",
+	"toolchains" : 
+	[
+		{
+			"compiler" : 
+			{
+				"id" : "GNU",
+				"implicit" : 
+				{
+					"includeDirectories" : 
+					[
+						"/usr/local/riscv64-unknown-elf-gcc/lib/gcc/riscv64-unknown-elf/10.1.0/include",
+						"/usr/local/riscv64-unknown-elf-gcc/lib/gcc/riscv64-unknown-elf/10.1.0/include-fixed",
+						"/usr/local/riscv64-unknown-elf-gcc/riscv64-unknown-elf/include"
+					],
+					"linkDirectories" : 
+					[
+						"/usr/local/riscv64-unknown-elf-gcc/lib/gcc/riscv64-unknown-elf/10.1.0/rv64imafdc/lp64d",
+						"/usr/local/riscv64-unknown-elf-gcc/riscv64-unknown-elf/lib/rv64imafdc/lp64d",
+						"/usr/local/riscv64-unknown-elf-gcc/lib/gcc/riscv64-unknown-elf/10.1.0",
+						"/usr/local/riscv64-unknown-elf-gcc/lib/gcc",
+						"/usr/local/riscv64-unknown-elf-gcc/riscv64-unknown-elf/lib"
+					],
+					"linkFrameworkDirectories" : [],
+					"linkLibraries" : 
+					[
+						"gcc",
+						"c",
+						"gloss",
+						"gcc"
+					]
+				},
+				"path" : "/usr/local/riscv64-unknown-elf-gcc/bin/riscv64-unknown-elf-gcc",
+				"version" : "10.1.0"
+			},
+			"language" : "C",
+			"sourceFileExtensions" : 
+			[
+				"c",
+				"m"
+			]
+		}
+	],
+	"version" : 
+	{
+		"major" : 1,
+		"minor" : 0
+	}
+}
