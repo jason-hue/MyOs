@@ -2,7 +2,8 @@
 #![no_main]
 #![feature(panic_info_message)]
 #![feature(str_from_raw_parts)]
-
+#![feature(allocator_api)]
+extern crate alloc;
 #[macro_use]
 mod console;
 mod sbi;
@@ -15,8 +16,11 @@ mod syscall;
 mod task;
 mod config;
 mod timer;
+mod linear_allocator;
+mod heap;
+mod shell;
 
-
+use alloc::vec::Vec;
 use core::panic::PanicInfo;
 use core::arch::global_asm;
 use ::log::{debug, trace};
@@ -24,6 +28,7 @@ use log::*;
 use crate::console::print;
 use crate::k210_lcd_driver::ST7789VConfig;
 use crate::sbi::shutdown;
+use crate::shell::shell;
 
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
@@ -85,6 +90,10 @@ pub extern "C" fn  start_main(){
     info!("[kernel] .stack_bss {:#x}",stack_bss as usize);
     trap::init();
     unsafe { loader::load_apps(); }
+    unsafe {
+        heap::init_kernel_heap();
+    }
+    shell();
     trap::enable_timer_interrupt();
     timer::set_next_trigger();
     task::run_first_task();
