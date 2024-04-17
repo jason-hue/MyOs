@@ -1,0 +1,7 @@
+*.rs linguist-language=rust
+*.mk linguist-language=rust
+*.py linguist-language=python
+*.asm linguist-language=assembly
+*.S linguist-language=assembly
+*.c linguist-language=c
+*.h linguist-language=c
