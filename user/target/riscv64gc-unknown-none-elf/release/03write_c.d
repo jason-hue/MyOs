@@ -1,1 +1,0 @@
-/home/knifefire/MyOs/user/target/riscv64gc-unknown-none-elf/release/03write_c: /home/knifefire/MyOs/user/src/bin/03write_c.rs /home/knifefire/MyOs/user/src/console.rs /home/knifefire/MyOs/user/src/lang_items.rs /home/knifefire/MyOs/user/src/lib.rs /home/knifefire/MyOs/user/src/syscall.rs
