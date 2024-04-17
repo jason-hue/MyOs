@@ -25,3 +25,12 @@ macro_rules! warn {
         println!("\x1B[33mWARNING:{}\x1B[0m",format_args!($($msg),*));
     }
 }
+#[macro_export]
+macro_rules! logo {
+    ($msg:expr) => {
+        println!("\x1b[0;31m{}\x1B[0m",$msg);
+    };
+    ($($msg:expr),*)=>{
+        println!("\x1b[0;31m{}\x1B[0m",format_args!($($msg),*));
+    }
+}

@@ -94,10 +94,6 @@ pub extern "C" fn  start_main(){
         heap::init_kernel_heap();
     }
     shell();
-    trap::enable_timer_interrupt();
-    timer::set_next_trigger();
-    task::run_first_task();
-
     panic!("shutdown machine!");
 }
 fn clear_bss(){

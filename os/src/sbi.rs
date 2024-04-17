@@ -1,10 +1,7 @@
-#![allow(unused)]
 const SBI_CONSOLE_PUTCHAR: usize = 1;
 const SBI_CONSOLE_GETCHAR: usize = 2;
 const SBI_SET_TIME: usize = 0;
 use core::arch::asm;
-use sbi_rt::Timer;
-
 #[inline(always)]
 fn sbi_call(which: usize,arg0: usize,arg1: usize,arg2: usize)->usize{
         let mut ret;
@@ -22,10 +19,8 @@ fn sbi_call(which: usize,arg0: usize,arg1: usize,arg2: usize)->usize{
 pub fn console_putchar(c: usize){
     sbi_call(SBI_CONSOLE_PUTCHAR,c,0,0);
 }
-
-pub fn console_getchar()->u8{
-    sbi_call(SBI_CONSOLE_GETCHAR,0,0,0) as u8
-
+pub fn console_getchar() -> usize {
+    sbi_call(SBI_CONSOLE_GETCHAR,0,0,0)
 }
 pub fn shutdown(failure: bool) -> ! {
     use sbi_rt::{system_reset, NoReason, Shutdown, SystemFailure};
