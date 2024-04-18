@@ -27,7 +27,7 @@ use ::log::{debug, trace};
 use log::*;
 use crate::console::print;
 use crate::k210_lcd_driver::ST7789VConfig;
-use crate::memory::heap;
+use crate::memory::heap_allocator;
 use crate::sbi::shutdown;
 use crate::shell::shell;
 
@@ -92,7 +92,7 @@ pub extern "C" fn  start_main(){
     trap::init();
     unsafe { loader::load_apps(); }
     unsafe {
-        heap::init_heap();
+        heap_allocator::init_heap();
     }
     shell();
     panic!("shutdown machine!");

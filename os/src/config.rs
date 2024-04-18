@@ -6,3 +6,5 @@ pub const APP_MAX_SIZE: usize = 0x20000;
 pub const qemu_CLOCK_FRED: usize = 12500000;
 pub const k210_CLOCK_FRED: usize = 403000000 / 62;
 pub const KERNEL_HEAP_SIZE: usize = 0x30_0000;
+pub const PAGE_SIZE: usize = 0x1000;
+pub const PAGE_SIZE_BITS: usize = 0xc;//一个页占12位字节地址
