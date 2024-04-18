@@ -4,14 +4,14 @@ use crate::config::{PAGE_SIZE, PAGE_SIZE_BITS};
 pub struct PhysAddr(pub usize);
 #[derive(Copy, Clone, Ord, PartialOrd, PartialEq, Eq)]
 pub struct VirtAddr(pub usize);
-#[derive(Copy, Clone, Ord, PartialOrd, PartialEq, Eq)]
+#[derive(Copy, Clone, Ord, PartialOrd, PartialEq, Eq, Debug)]
 pub struct PhysPageNum(pub usize);
 #[derive(Copy, Clone, Ord, PartialOrd, PartialEq, Eq)]
 pub struct VirtPageNum(pub usize);
 const PA_WIDTH_SV39: usize = 56;
 const PPN_WIDTH_SV39: usize = PA_WIDTH_SV39 - PAGE_SIZE_BITS;//44位字节地址
 const VA_WIDTH_SV39: usize = 39;
-const VPN_WIDTH_SV39: usize = VPN_WIDTH_SV39 - PAGE_SIZE_BITS;//27位
+const VPN_WIDTH_SV39: usize = VA_WIDTH_SV39 - PAGE_SIZE_BITS;//27位
 impl From<usize> for PhysAddr {
     fn from(v: usize) -> Self { Self(v & ( (1 << PA_WIDTH_SV39) - 1 )) }
 }//将usize类型转换为PhysAddr类型。在转换过程中，它将输入的usize值按位与操作符(&)与((1 << PA_WIDTH_SV39) - 1)进行按位与操作，从而保留了usize值的低PA_WIDTH_SV39位，将高位清零，得到一个合法的物理地址
@@ -66,6 +66,14 @@ impl VirtAddr{
     }
     pub fn ceil(&self) -> VirtPageNum {
         VirtPageNum((self.0 + PAGE_SIZE -1) / PAGE_SIZE)
+    }
+}
+impl PhysPageNum{
+    pub fn get_bytes_array(&self) -> &'static mut [u8] {
+        let pa: PhysAddr = (*self).into();
+        unsafe {
+            core::slice::from_raw_parts_mut(pa.0 as *mut u8,4096)
+        }
     }
 }
 impl From<PhysAddr> for PhysPageNum {
