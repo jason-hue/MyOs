@@ -5,3 +5,4 @@ pub const KERNEL_STACK_SIZE: usize = 4096*2;
 pub const APP_MAX_SIZE: usize = 0x20000;
 pub const qemu_CLOCK_FRED: usize = 12500000;
 pub const k210_CLOCK_FRED: usize = 403000000 / 62;
+pub const KERNEL_HEAP_SIZE: usize = 0x30_0000;

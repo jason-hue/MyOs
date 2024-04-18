@@ -3,6 +3,7 @@
 #![feature(panic_info_message)]
 #![feature(str_from_raw_parts)]
 #![feature(allocator_api)]
+#![feature(alloc_error_handler)]
 extern crate alloc;
 #[macro_use]
 mod console;
@@ -16,9 +17,8 @@ mod syscall;
 mod task;
 mod config;
 mod timer;
-mod linear_allocator;
-mod heap;
 mod shell;
+mod memory;
 
 use alloc::vec::Vec;
 use core::panic::PanicInfo;
@@ -27,6 +27,7 @@ use ::log::{debug, trace};
 use log::*;
 use crate::console::print;
 use crate::k210_lcd_driver::ST7789VConfig;
+use crate::memory::heap;
 use crate::sbi::shutdown;
 use crate::shell::shell;
 
@@ -91,7 +92,7 @@ pub extern "C" fn  start_main(){
     trap::init();
     unsafe { loader::load_apps(); }
     unsafe {
-        heap::init_kernel_heap();
+        heap::init_heap();
     }
     shell();
     panic!("shutdown machine!");
