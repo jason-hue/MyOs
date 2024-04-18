@@ -5,6 +5,7 @@
 #![feature(allocator_api)]
 #![feature(alloc_error_handler)]
 extern crate alloc;
+extern crate bitflags;
 #[macro_use]
 mod console;
 mod sbi;
