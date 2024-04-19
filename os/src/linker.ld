@@ -6,10 +6,14 @@ SECTIONS{
     . = BASE_ADDRESS;
     skernel = .;
     stext = .;
-    .text : {
-        *(.text.entry)
-        *(.text .text.*)
-        }
+  .text : {
+          *(.text.entry)
+          . = ALIGN(4K);
+          strampoline = .;
+          *(.text.trampoline);
+          . = ALIGN(4K);
+          *(.text .text.*)
+      }
     . = ALIGN(4K);
     etext = .;
     srodata = .;
@@ -26,6 +30,7 @@ SECTIONS{
         }
     . = ALIGN(4K);
     edata = .;
+    sbss_with_stack = .;
     .bss : {
         stack_bss = .;
         *(.bss.stack)

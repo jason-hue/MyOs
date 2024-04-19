@@ -28,7 +28,7 @@ use ::log::{debug, trace};
 use log::*;
 use crate::console::print;
 use crate::k210_lcd_driver::ST7789VConfig;
-use crate::memory::frame_allocator::{frame_allocator_test, init_frame_allocator};
+use crate::memory::frame_allocator::{init_frame_allocator};
 use crate::memory::heap_allocator;
 use crate::sbi::shutdown;
 use crate::shell::shell;
