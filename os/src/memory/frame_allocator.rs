@@ -74,7 +74,7 @@ fn frame_dealloc(ppn: PhysPageNum) {
         .exclusive_access()
         .dealloc(ppn);
 }
-#[derive(Debug)]
+#[derive(Clone,Debug)]
 pub struct FrameTracker {
     pub ppn: PhysPageNum,
 }

@@ -5,10 +5,11 @@
 .macro LOAD_RE n
     ld x\n,\n*8(sp)
 .endm
-    .section .text
-    .align 2
-    .globl _alltraps
+    .section .text.trampoline
+    .global _alltraps
     .globl _restore
+    .align 2
+
 _alltraps:
     csrrw sp,sscratch,sp
     addi sp,sp,-34*8
@@ -28,19 +29,26 @@ _alltraps:
     csrr t2,sscratch
     sd t2,2*8(sp)
 
-    mv a0,sp
+    ld t0,34*8(sp)
+    ld t1,36*8(sp)
+    ld sp,35*8(sp)
 
-    call trap_handler
+    csrw satp,t0
+    sfence.vma
+
+    jr t1
 
 
 
 _restore:
+    csrw satp, a1
+    sfence.vma
+    csrw sscratch, a0
+    mv sp, a0
     ld t0, 32*8(sp)
     ld t1, 33*8(sp)
-    ld t2, 2*8(sp)
     csrw sstatus, t0
     csrw sepc, t1
-    csrw sscratch, t2
     ld x1, 1*8(sp)
     ld x3, 3*8(sp)
 .set n, 5
@@ -48,8 +56,8 @@ _restore:
     LOAD_RE %n
     .set n, n+1
 .endr
+    ld sp,2*8(sp)
     addi sp, sp, 34*8
-    csrrw sp, sscratch, sp
     sret
 
 

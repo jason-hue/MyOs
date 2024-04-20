@@ -29,9 +29,13 @@ use log::*;
 use crate::console::print;
 use crate::k210_lcd_driver::ST7789VConfig;
 use crate::memory::frame_allocator::{init_frame_allocator};
-use crate::memory::heap_allocator;
+use crate::memory::{heap_allocator, init};
+use crate::memory::memory_set::remap_test;
 use crate::sbi::shutdown;
 use crate::shell::shell;
+use crate::task::run_first_task;
+use crate::timer::set_next_trigger;
+use crate::trap::enable_timer_interrupt;
 
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
@@ -91,12 +95,13 @@ pub extern "C" fn  start_main(){
     info!("[kernel] .rodata [{:#x}, {:#x})",srodata as usize,erodata as usize);
     info!("[kernel] .bss [{:#x}, {:#x})", sbss as usize, ebss as usize);
     info!("[kernel] .stack_bss {:#x}",stack_bss as usize);
+    init();
     trap::init();
-    unsafe { loader::load_apps(); }
-    unsafe {
-        heap_allocator::init_heap();
-    }
-    shell();
+    remap_test();
+    enable_timer_interrupt();
+    set_next_trigger();
+    run_first_task();
+
     panic!("shutdown machine!");
 }
 fn clear_bss(){

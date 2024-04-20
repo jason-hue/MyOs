@@ -4,6 +4,7 @@ const SYS_WRITE: usize = 64;
 const SYS_EXIT: usize = 93;
 const SYS_YIELD: usize = 124;
 const SYSCALL_GET_TIME: usize = 169;
+const SYSCALL_SBRK: usize = 214;
 pub fn syscall(sys_id:usize, arg:[usize;3])->isize{
     let mut ret;
     unsafe { asm!(
@@ -28,4 +29,7 @@ pub fn sys_yield()->isize{
 }
 pub fn sys_get_time() -> isize {
     syscall(SYSCALL_GET_TIME, [0, 0, 0])
+}
+pub fn sys_sbrk(size: i32) -> isize {
+    syscall(SYSCALL_SBRK, [size as usize, 0, 0])
 }

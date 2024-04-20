@@ -1,12 +1,14 @@
+use alloc::vec::Vec;
 use lazy_static::*;
+use crate::error;
 use crate::task::task::{TaskControlBlock, TaskStatus};
 use crate::sync::UPsafeCell;
-use crate::config::MAX_APP;
-use crate::{error, info};
-use crate::loader::{get_app_num, init_app_cx};
+use crate::loader::{get_app_data, get_app_num};
 use crate::sbi::shutdown;
 use crate::task::context::TaskContext;
 use crate::task::switch::_switch;
+use crate::trap::Context::TrapContext;
+
 mod context;
 mod switch;
 mod task;
@@ -17,7 +19,7 @@ pub struct TaskManager{
 }
 struct TaskManagerInner{
     current_task: usize,
-    tasks: [TaskControlBlock;MAX_APP]
+    tasks: Vec<TaskControlBlock>
 }
 impl TaskManager {
     fn mark_current_suspended(&self){
@@ -30,6 +32,12 @@ impl TaskManager {
         let current = inner.current_task;
         inner.tasks[current].task_status = TaskStatus::Exited;
     }
+    pub fn change_current_program_brk(&self, size: i32) -> Option<usize> {
+        let mut inner = self.task_manager_inner.exclusive_access();
+        let cur = inner.current_task;
+        inner.tasks[cur].change_program_brk(size)
+    }
+
     fn run_next_task(&self){
         if let Some(next) = self.find_next_task(){
             let mut inner = self.task_manager_inner.exclusive_access();
@@ -55,7 +63,7 @@ impl TaskManager {
             inner.tasks[*id].task_status == TaskStatus::Ready
         })
     }
-    fn run_first_task(&self){
+    fn run_first_task(&self)->!{
         let mut inner = self.task_manager_inner.exclusive_access();
         let task0 = &mut inner.tasks[0];
         task0.task_status = TaskStatus::Running;
@@ -70,30 +78,38 @@ impl TaskManager {
         }
         panic!("unreachable in run_first_task!")
     }
+    fn get_current_trap_cx(&self) -> &'static mut TrapContext {
+        let inner = self.task_manager_inner.exclusive_access();
+        inner.tasks[inner.current_task].get_trap_cx()
+    }
+    fn get_current_token(&self) -> usize {
+        let inner = self.task_manager_inner.exclusive_access();
+        inner.tasks[inner.current_task].get_user_token()
+    }
 
 
 }
 lazy_static!{
     pub static ref TASK_MANAGER: TaskManager = {
+        println!("init TASK_MANAGER");
         let num_app = get_app_num();
-        let mut tasks = [TaskControlBlock{
-            task_status: TaskStatus::UnInit,
-            task_cx: TaskContext::zero_cx(),
-        };MAX_APP];
-        for (i, task) in tasks.iter_mut().enumerate() {
-            task.task_cx = TaskContext::go_to_restore(init_app_cx(i));
-            task.task_status = TaskStatus::Ready;
+        println!("num_app = {}", num_app);
+        let mut tasks: Vec<TaskControlBlock> = Vec::new();
+        for i in 0..num_app {
+            tasks.push(TaskControlBlock::new(
+                get_app_data(i),
+                i,
+            ));
         }
-        TaskManager{
+        TaskManager {
             app_num: num_app,
-            task_manager_inner: UPsafeCell::new(
-                TaskManagerInner{
-                    current_task: 0,
+            task_manager_inner: unsafe {
+                UPsafeCell::new(TaskManagerInner {
                     tasks,
-                }
-            )
+                    current_task: 0,
+                })
+            },
         }
-
     };
 
 }
@@ -121,4 +137,13 @@ fn mark_current_exited() {
 pub fn run_first_task() {
     TASK_MANAGER.run_first_task();
 
+}
+pub fn change_program_brk(size: i32) -> Option<usize> {
+    TASK_MANAGER.change_current_program_brk(size)
+}
+pub fn current_trap_cx() -> &'static mut TrapContext {
+    TASK_MANAGER.get_current_trap_cx()
+}
+pub fn current_user_token() -> usize {
+    TASK_MANAGER.get_current_token()
 }
