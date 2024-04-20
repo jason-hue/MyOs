@@ -103,7 +103,8 @@ pub extern "C" fn  start_main(){
     set_next_trigger();
     frame_allocator_test();
     heap_test();
-    run_first_task();
+    shell();
+
 
     panic!("shutdown machine!");
 }

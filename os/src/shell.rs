@@ -55,8 +55,6 @@ fn process_command(command: &str) {
         }
         "shutdown" | "sd" | "exit" => crate::sbi::shutdown(false),
         "run" => {
-            trap::enable_timer_interrupt();
-            timer::set_next_trigger();
             task::run_first_task();
         }
         "" => {}
