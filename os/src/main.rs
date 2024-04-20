@@ -28,8 +28,9 @@ use ::log::{debug, trace};
 use log::*;
 use crate::console::print;
 use crate::k210_lcd_driver::ST7789VConfig;
-use crate::memory::frame_allocator::{init_frame_allocator};
+use crate::memory::frame_allocator::{frame_allocator_test, init_frame_allocator};
 use crate::memory::{heap_allocator, init};
+use crate::memory::heap_allocator::heap_test;
 use crate::memory::memory_set::remap_test;
 use crate::sbi::shutdown;
 use crate::shell::shell;
@@ -100,6 +101,8 @@ pub extern "C" fn  start_main(){
     remap_test();
     enable_timer_interrupt();
     set_next_trigger();
+    frame_allocator_test();
+    heap_test();
     run_first_task();
 
     panic!("shutdown machine!");

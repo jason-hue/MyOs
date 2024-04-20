@@ -21,9 +21,9 @@ if __name__ == "__main__":
     os = "src/linker.ld"
     user = "../user/src/linker.ld"
     qemu_os_address = "0x80200000"
-    qemu_user_address = "0x80400000"
+    qemu_user_address = "0x10000"
     k210_os_address = "0x80020000"
-    k210_user_address = "0x80040000"
+    k210_user_address = "0x10000"
     if sys.argv[1] == "qemu":
         update_base_address(os, qemu_os_address)
         update_base_address(user, qemu_user_address)

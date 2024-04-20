@@ -1,6 +1,5 @@
 use alloc::vec::Vec;
 use lazy_static::*;
-use crate::error;
 use crate::task::task::{TaskControlBlock, TaskStatus};
 use crate::sync::UPsafeCell;
 use crate::loader::{get_app_data, get_app_num};

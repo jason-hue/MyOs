@@ -12,7 +12,6 @@
 
 _alltraps:
     csrrw sp,sscratch,sp
-    addi sp,sp,-34*8
     sd x1,8(sp)
     sd x3,3*8(sp)
 .set n,5
@@ -57,7 +56,6 @@ _restore:
     .set n, n+1
 .endr
     ld sp,2*8(sp)
-    addi sp, sp, 34*8
     sret
 
 

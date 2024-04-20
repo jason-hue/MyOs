@@ -1,4 +1,6 @@
 use alloc::vec::Vec;
+use core::fmt;
+use core::fmt::{Debug, Formatter};
 use lazy_static::lazy_static;
 use crate::memory::address::PhysAddr;
 use crate::config::MEMORY_END;
@@ -25,26 +27,23 @@ impl FrameAllocator for StackFrameAllocator{
     }
 
     fn alloc(&mut self) -> Option<PhysPageNum> {
-        if let Some(ppn) = self.recycled.pop(){
+        if let Some(ppn) = self.recycled.pop() {
             Some(ppn.into())
-        }else {
-            if self.current_ppn == self.end_ppn{
-                None
-            }else {
-                self.current_ppn += 1;
-                Some((self.current_ppn - 1).into())
-            }
+        } else if self.current_ppn == self.end_ppn {
+            None
+        } else {
+            self.current_ppn += 1;
+            Some((self.current_ppn - 1).into())
         }
     }
 
     fn dealloc(&mut self, ppn: PhysPageNum) {
         let ppn = ppn.0;
-        if ppn >= self.current_ppn || self.recycled
-            .iter().find(|&v|{
-            *v == ppn
-        }).is_some(){
+        // validity check
+        if ppn >= self.current_ppn || self.recycled.iter().any(|&v| v == ppn) {
             panic!("Frame ppn={:#x} has not been allocated!", ppn);
         }
+        // recycle
         self.recycled.push(ppn);
     }
 }
@@ -74,7 +73,7 @@ fn frame_dealloc(ppn: PhysPageNum) {
         .exclusive_access()
         .dealloc(ppn);
 }
-#[derive(Clone,Debug)]
+#[derive(Clone)]
 pub struct FrameTracker {
     pub ppn: PhysPageNum,
 }
@@ -91,4 +90,27 @@ impl Drop for FrameTracker {
     fn drop(&mut self) {
         frame_dealloc(self.ppn);
     }
+}
+impl Debug for FrameTracker {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        f.write_fmt(format_args!("FrameTracker:PPN={:#x}", self.ppn.0))
+    }
+}
+#[allow(unused)]
+/// a simple test for frame allocator
+pub fn frame_allocator_test() {
+    let mut v: Vec<FrameTracker> = Vec::new();
+    for i in 0..5 {
+        let frame = frame_alloc().unwrap();
+        println!("{:?}", frame);
+        v.push(frame);
+    }
+    v.clear();
+    for i in 0..5 {
+        let frame = frame_alloc().unwrap();
+        println!("{:?}", frame);
+        v.push(frame);
+    }
+    drop(v);
+    println!("frame_allocator_test passed!");
 }

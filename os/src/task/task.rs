@@ -1,4 +1,5 @@
 use crate::config::{kernel_stack_position, TRAMPOLINE, TRAP_CONTEXT};
+use crate::error;
 use crate::memory::address::{PhysPageNum, VirtAddr};
 use crate::memory::memory_set::{KERNEL_SPACE, MapPermission, MemorySet};
 use crate::task::context::TaskContext;
