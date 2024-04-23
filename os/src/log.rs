@@ -34,3 +34,13 @@ macro_rules! logo {
         println!("\x1b[0;31m{}\x1B[0m",format_args!($($msg),*));
     }
 }
+
+#[macro_export]
+macro_rules! applogo {
+    ($msg:expr) => {
+        println!("\x1B[32m{}\x1B[0m",$msg);
+    };
+    ($($msg:expr),*)=>{
+        println!("\x1b[0;32m{}\x1B[0m",format_args!($($msg),*));
+    }
+}

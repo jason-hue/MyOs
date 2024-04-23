@@ -45,6 +45,7 @@ pub fn main()->! {
     let mut buffer = String::new();
     loop {
         let mut line = read_line(&mut buffer);
+        println!("");
         match line{
             ENTER => {
                 process_command(buffer.as_ref());
@@ -79,6 +80,7 @@ fn process_command(command: &str){
                 if pid == 0{
                     if exec(trimmed_command) == -1{
                         println!("Error when executing!");
+                        return;
                     }
                     unreachable!();
                 }else {
