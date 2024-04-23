@@ -13,8 +13,8 @@ const DL: u8 = 0x7fu8;
 const BS: u8 = 0x08u8;
 
 use alloc::string::String;
-use user_lib::console::console_getchar;
-use user_lib::{exec, fork, shutdown, waitpid};
+use user_lib::console::getchar;
+use user_lib::{exec, fork, print_apps, shutdown, waitpid};
 const ENTER: u8 = 13;
 const BACKSPACE: u8 = 127;
 const MYOS_ASCII_ART: &str = r#"
@@ -37,7 +37,7 @@ MMMMMMMM               MMMMMMMM      YYYYYYYYYYYYY          OOOOOOOOO           
 "#;
 
 #[no_mangle]
-pub fn mian()->! {
+pub fn main()->! {
     logo!("{}",MYOS_ASCII_ART);
     println!("");
     print!("knifefire@knifefire-Legion-Y9000P-IAH7H:~ ");
@@ -63,9 +63,13 @@ fn process_command(command: &str){
         "help" | "?" | "h" => {
             println!("");
             println!("available commands:");
+            println!("  list      dispaly apps");
             println!("  run       run the built in app");
             println!("  help      print this help message  (alias: h, ?)");
             println!("  shutdown  shutdown the machine     (alias: sd, exit)");
+        }
+        "list" =>{
+            print_apps();
         }
         "shutdown" | "sd" | "exit" => shutdown(),
         "" => {}
@@ -93,7 +97,7 @@ fn read_line(buffer: &mut String) -> u8 {
     let mut cursor_position = buffer.len();
 
     loop {
-        let ch = console_getchar() as u8;
+        let ch = getchar() as u8;
         if ch == ENTER {
             return ENTER;
         } else if ch == BACKSPACE {

@@ -1,5 +1,5 @@
 use crate::syscall::fs::{sys_read, sys_write};
-use crate::syscall::process::{exit, sys_exec, sys_fork, sys_get_time, sys_getpid, sys_shutdown, sys_waitpid, sys_yield};
+use crate::syscall::process::{exit, sys_exec, sys_fork, sys_get_time, sys_getpid, sys_print_apps, sys_shutdown, sys_waitpid, sys_yield};
 
 mod fs;
 mod process;
@@ -14,6 +14,7 @@ const SYS_EXEC: usize = 221;
 const SYS_WAITPID: usize = 260;
 const SYS_READ: usize = 63;
 const SYS_SHUTDOWN: usize = 48;
+const SYS_PRINT_APPS: usize = 100;
 pub fn syscall(syscall_id: usize, args: [usize; 3]) -> isize {
     match syscall_id {
         SYS_WRITE => sys_write(args[0], args[1] as *const u8, args[2]),
@@ -26,6 +27,7 @@ pub fn syscall(syscall_id: usize, args: [usize; 3]) -> isize {
         SYS_EXEC => sys_exec(args[0] as *const u8),
         SYS_WAITPID => sys_waitpid(args[0] as isize, args[1] as *mut i32),
         SYS_SHUTDOWN => sys_shutdown(false),
+        SYS_PRINT_APPS=> sys_print_apps(),
         _ => panic!("Unsupported syscall_id: {}", syscall_id),
     }
 }

@@ -11,6 +11,7 @@ const SYS_FORK: usize = 220;
 const SYS_EXEC: usize = 221;
 const SYS_WAITPID: usize = 260;
 const SYT_SHUTDOWN: usize = 48;
+const SYS_PRINT_APPS: usize = 100;
 
 
 pub fn syscall(sys_id:usize, arg:[usize;3])->isize{
@@ -64,4 +65,7 @@ pub fn sys_waitpid(pid: isize, exit_code: *mut i32) -> isize {
 }
 pub fn sys_shutdown(){
     syscall(SYT_SHUTDOWN,[0,0,0]);
+}
+pub fn sys_print_apps(){
+    syscall(SYS_PRINT_APPS,[0,0,0]);
 }

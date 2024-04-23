@@ -1,6 +1,7 @@
 #![no_std]
 #![feature(linkage)]
 #![feature(alloc_error_handler)]
+#![feature(panic_info_message)]
 
 mod lang_items;
 mod syscall;
@@ -20,10 +21,15 @@ pub fn handle_alloc_error(layout: core::alloc::Layout) -> ! {
     panic!("Heap allocation error, layout = {:?}", layout);
 }
 
+
 #[no_mangle]
 #[link_section=".text.entry"]
 pub extern "C" fn start_main(){
     clear_bss();
+    unsafe {
+        HEAP.lock()
+            .init(HEAP_SPACE.as_ptr() as usize, USER_HEAP_SIZE);
+    }
     exit(main());
 }
 
@@ -106,4 +112,7 @@ pub fn sleep(period_ms: usize) {
 }
 pub fn shutdown(){
     sys_shutdown();
+}
+pub fn print_apps(){
+    sys_print_apps();
 }

@@ -108,7 +108,6 @@ pub extern "C" fn  start_main(){
     trap::init();
     enable_timer_interrupt();
     set_next_trigger();
-    loader::list_apps();
     task::run_tasks();
 
 

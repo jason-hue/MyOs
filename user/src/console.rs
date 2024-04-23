@@ -37,7 +37,7 @@ macro_rules! logo {
         println!("\x1b[0;31m{}\x1B[0m",format_args!($($msg),*));
     }
 }
-pub fn console_getchar() -> u8 {
+pub fn getchar() -> u8 {
     let mut c = [0u8; 1];
     read(STDIN, &mut c);
     c[0]
