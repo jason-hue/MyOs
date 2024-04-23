@@ -1,7 +1,8 @@
-use crate::{sys_write, write};
+use crate::{read, sys_write, write};
 use core::fmt::{Arguments, Write};
 struct Stdout;
-const STDOUT:usize = 1;
+const STDOUT: usize = 1;
+const STDIN: usize = 0;
 
 impl Write for Stdout{
     fn write_str(&mut self, s: &str) -> core::fmt::Result {
@@ -26,4 +27,18 @@ macro_rules! println {
     ($fmt: literal $(, $($arg: tt)+)?) => {
         $crate::console::print(format_args!(concat!($fmt, "\n") $(, $($arg)+)?));
     }
+}
+#[macro_export]
+macro_rules! logo {
+    ($msg:expr) => {
+        println!("\x1b[0;31m{}\x1B[0m",$msg);
+    };
+    ($($msg:expr),*)=>{
+        println!("\x1b[0;31m{}\x1B[0m",format_args!($($msg),*));
+    }
+}
+pub fn console_getchar() -> u8 {
+    let mut c = [0u8; 1];
+    read(STDIN, &mut c);
+    c[0]
 }

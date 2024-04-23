@@ -34,7 +34,6 @@ use crate::memory::heap_allocator::heap_test;
 use crate::memory::memory_set::remap_test;
 use crate::sbi::shutdown;
 use crate::shell::shell;
-use crate::task::run_first_task;
 use crate::timer::set_next_trigger;
 use crate::trap::enable_timer_interrupt;
 
@@ -103,7 +102,14 @@ pub extern "C" fn  start_main(){
     set_next_trigger();
     frame_allocator_test();
     heap_test();
-    shell();
+    //shell();
+    task::add_initproc();
+    println!("after initproc!");
+    trap::init();
+    enable_timer_interrupt();
+    set_next_trigger();
+    loader::list_apps();
+    task::run_tasks();
 
 
     panic!("shutdown machine!");
