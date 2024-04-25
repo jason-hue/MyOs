@@ -1,3 +1,5 @@
+FAT_IMG := ../fat.img
+ELF_SRC := ../testsuits/
 clean:
 	cargo clean
 qemu_build:clean
@@ -17,7 +19,9 @@ run:qemu_dump
         -machine virt \
         -nographic \
         -bios bootloader/rustsbi-qemu.bin \
-        -device loader,file=target/riscv64gc-unknown-none-elf/release/MyOs.bin,addr=0x80200000
+        -device loader,file=target/riscv64gc-unknown-none-elf/release/MyOs.bin,addr=0x80200000 \
+		-drive file=$(FAT_IMG),if=none,format=raw,id=x0 \
+        -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0 \
 
 gdbserver:qemu_dump
 	qemu-system-riscv64 \
@@ -34,3 +38,7 @@ k210:k210_dump
 	dd if=target/riscv64gc-unknown-none-elf/release/MyOs.bin of=k210-bin/rustsbi-k210-copy.bin bs=128k seek=1
 	mv k210-bin/rustsbi-k210-copy.bin k210-bin/MyOs.bin
 	sudo kflash -p /dev/ttyUSB0 -t k210-bin/MyOs.bin
+
+fat-img:
+	@rm -f ../$(FAT_IMG)
+	@cd ../fat32-fuse && cargo run -- -s $(ELF_SRC) -t $(ELF_SRC) -o $(FAT_IMG)

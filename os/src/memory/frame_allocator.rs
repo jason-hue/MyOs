@@ -68,7 +68,7 @@ pub fn init_frame_allocator(){
 pub fn frame_alloc()->Option<FrameTracker>{
     FRAME_ALLOCATOR.exclusive_access().alloc().map(|ppn| FrameTracker::new(ppn))
 }
-fn frame_dealloc(ppn: PhysPageNum) {
+pub fn frame_dealloc(ppn: PhysPageNum) {
     FRAME_ALLOCATOR
         .exclusive_access()
         .dealloc(ppn);

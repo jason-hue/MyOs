@@ -1,0 +1,26 @@
+[package]
+name = "fscommon"
+version = "0.1.1"
+authors = ["Rafał Harabień <rafalh92@outlook.com>"]
+edition = "2018"
+repository = "https://github.com/rafalh/rust-fscommon"
+readme = "README.md"
+keywords = ["filesystem", "no_std"]
+categories = ["filesystem"]
+license = "MIT"
+description = """
+Filesystem common utilities.
+"""
+
+[features]
+# Use Rust std library
+std = []
+# Default features
+default = []
+
+[dependencies]
+core2 = { path = "../../dependencies/core2", version = "0.4", default-features = false, features = ["nightly"] }
+log = "0.4"
+
+[dev-dependencies]
+env_logger = "0.9"

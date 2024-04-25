@@ -20,6 +20,7 @@ mod config;
 mod timer;
 mod shell;
 mod memory;
+mod drivers;
 
 use alloc::vec::Vec;
 use core::panic::PanicInfo;
@@ -27,6 +28,7 @@ use core::arch::global_asm;
 use ::log::{debug, trace};
 use log::*;
 use crate::console::print;
+use crate::drivers::block::block_device_test;
 use crate::k210_lcd_driver::ST7789VConfig;
 use crate::memory::frame_allocator::{frame_allocator_test, init_frame_allocator};
 use crate::memory::{heap_allocator, init};
@@ -102,6 +104,7 @@ pub extern "C" fn  start_main(){
     set_next_trigger();
     frame_allocator_test();
     heap_test();
+    block_device_test();
     //shell();
     task::add_initproc();
     println!("after initproc!");

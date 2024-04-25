@@ -18,4 +18,6 @@ pub fn kernel_stack_position(app_id: usize) -> (usize, usize) {
 }
 pub const qemu_MMIO: &[(usize, usize)] = &[
     (0x0010_0000, 0x00_2000), // VIRT_TEST/RTC  in virt machine
+    (0x1000_1000, 0x00_1000), // VIRT_TEST/RTC  in virt machine
 ];
+pub type qemu_BlockDeviceImpl = crate::drivers::block::VirtIOBlock;

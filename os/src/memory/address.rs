@@ -228,4 +228,9 @@ impl<T> Iterator for SimpleRangeIterator<T>
         }
     }
 }
+impl StepByOne for PhysPageNum {
+    fn step(&mut self) {
+        self.0 += 1;
+    }
+}
 pub type VPNRange = SimpleRange<VirtPageNum>;

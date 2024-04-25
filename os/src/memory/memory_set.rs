@@ -424,3 +424,6 @@ pub fn remap_test() {
         .executable(),);
     println!("remap_test passed!");
 }
+pub fn kernel_token() -> usize {
+    KERNEL_SPACE.exclusive_access().token()
+}
