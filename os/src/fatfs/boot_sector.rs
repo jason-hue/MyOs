@@ -106,6 +106,7 @@ impl BiosParameterBlock {
     pub fn is_fat32(&self) -> bool {
         self.sectors_per_fat_16 == 0
     }
+    #[no_mangle]
     pub fn root_dir_sectors(&self) -> u32 {
         let root_dir_bytes = u32::from(self.root_entries) * 32;
         (root_dir_bytes + u32::from(self.bytes_per_sector) - 1) / u32::from(self.bytes_per_sector)

@@ -108,6 +108,7 @@ pub extern "C" fn  start_main(){
     frame_allocator_test();
     heap_test();
     block_device_test();
+    fatfs::fs_init();
     //shell();
     task::add_initproc();
     println!("after initproc!");

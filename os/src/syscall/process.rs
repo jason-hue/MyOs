@@ -1,4 +1,5 @@
 use alloc::sync::Arc;
+use crate::fs::{open_file, OpenFlags};
 use crate::loader::{get_app_data_by_name, list_apps};
 use crate::memory::page_table::{translated_refmut, translated_str};
 use crate::sbi::shutdown;
@@ -34,9 +35,10 @@ pub fn sys_fork() -> isize {
 pub fn sys_exec(path: *const u8) -> isize {
     let token = current_user_token();
     let path = translated_str(token, path);
-    if let Some(data) = get_app_data_by_name(path.as_str()) {
-        let task = current_task().unwrap();
-        task.exec(data);
+    if let Some(app_inode) = open_file(path.as_str(), OpenFlags::RDONLY) {
+        let all_data = app_inode.read_all();
+        let process = current_task().unwrap();
+        process.exec(all_data.as_slice());
         0
     } else {
         -1

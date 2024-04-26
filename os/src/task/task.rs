@@ -1,8 +1,10 @@
 use alloc::sync::{Weak,Arc};
+use alloc::vec;
 use alloc::vec::Vec;
 use core::cell::RefMut;
 use crate::config::{kernel_stack_position, TRAMPOLINE, TRAP_CONTEXT};
-use crate::error;
+use crate::fatfs::fs::FileSystem;
+use crate::fs::{File, FileDescriptor, root, Stdin, Stdout};
 use crate::memory::address::{PhysPageNum, VirtAddr};
 use crate::memory::memory_set::{KERNEL_SPACE, MapPermission, MemorySet};
 use crate::sync::UPsafeCell;
@@ -26,6 +28,8 @@ pub struct TaskControlBlockInner {
     pub parent: Option<Weak<TaskControlBlock>>,
     pub children: Vec<Arc<TaskControlBlock>>,
     pub exit_code: i32,
+    pub fd_table: Vec<Option<FileDescriptor>>,
+    pub work_dir: Arc<FileDescriptor>,
 }
 #[derive(Copy, Clone, PartialEq)]
 pub enum TaskStatus {
@@ -45,6 +49,14 @@ impl TaskControlBlockInner {
     }
     pub fn is_zombie(&self) -> bool {
         self.get_status() == TaskStatus::Zombie
+    }
+    pub fn alloc_fd(&mut self) -> usize {
+        if let Some(fd) = (0..self.fd_table.len()).find(|fd| self.fd_table[*fd].is_none()) {
+            fd
+        } else {
+            self.fd_table.push(None);
+            self.fd_table.len() - 1
+        }
     }
 }
 
@@ -78,6 +90,15 @@ impl TaskControlBlock {
                     parent: None,
                     children: Vec::new(),
                     exit_code: 0,
+                    fd_table: vec![
+                        // 0 -> stdin
+                        Some(FileDescriptor::Abstract(Arc::new(Stdin))),
+                        // 1 -> stdout
+                        Some(FileDescriptor::Abstract(Arc::new(Stdout))),
+                        // 2 -> stderr
+                        Some(FileDescriptor::Abstract(Arc::new(Stdout))),
+                    ],
+                    work_dir:Arc::new(FileDescriptor::File(root()))
                 })
             },
         };
@@ -132,6 +153,15 @@ impl TaskControlBlock {
         let pid_handle = pid_alloc();
         let kernel_stack = KernelStack::new(&pid_handle);
         let kernel_stack_top = kernel_stack.get_top();
+        // copy fd table
+        let mut new_fd_table: Vec<Option<FileDescriptor>> = Vec::new();
+        for fd in parent_inner.fd_table.iter() {
+            if let Some(file) = fd {
+                new_fd_table.push(Some(file.clone()));
+            } else {
+                new_fd_table.push(None);
+            }
+        }
         let task_control_block = Arc::new(TaskControlBlock {
             pid: pid_handle,
             kernel_stack,
@@ -145,6 +175,8 @@ impl TaskControlBlock {
                     parent: Some(Arc::downgrade(self)),
                     children: Vec::new(),
                     exit_code: 0,
+                    fd_table: new_fd_table,
+                    work_dir: parent_inner.work_dir.clone()
                 })
             },
         });

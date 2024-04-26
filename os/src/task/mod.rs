@@ -67,9 +67,12 @@ pub fn exit_current_and_run_next(exit_code: i32) {
 }
 
 lazy_static! {
-    pub static ref INITPROC: Arc<TaskControlBlock> = Arc::new(TaskControlBlock::new(
-        get_app_data_by_name("initproc").unwrap()
-    ));
+    pub static ref INITPROC: Arc<TaskControlBlock> = {
+        let v = include_bytes!("../initproc");
+        // let v = unsafe{inode.read_all()};
+        // let vs = v.as_slice();
+        Arc::new(TaskControlBlock::new(v.as_slice()))
+    };
 }
 pub fn add_initproc() {
     add_task(INITPROC.clone());

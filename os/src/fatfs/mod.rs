@@ -33,7 +33,6 @@ lazy_static! {
     pub static ref FATFS: Arc<FileSystem<BlockCacheManager>> =
         Arc::new(FileSystem::new(BlockCacheManager::new()).unwrap());
 }
-
 pub fn fs_init() {
     root_dir().ls();
 
