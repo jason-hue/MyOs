@@ -29,6 +29,8 @@ gdbserver:qemu_dump
             -nographic \
             -bios bootloader/rustsbi-qemu.bin \
             -device loader,file=target/riscv64gc-unknown-none-elf/release/MyOs.bin,addr=0x80200000 \
+            -drive file=$(FAT_IMG),if=none,format=raw,id=x0 \
+            -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0 \
             -s -S
 gdbclient:
 	riscv64-unknown-elf-gdb -ex 'file target/riscv64gc-unknown-none-elf/release/MyOs' -ex 'set arch riscv:rv64' -ex 'target remote localhost:1234'

@@ -186,3 +186,102 @@ pub fn translated_str(token: usize, ptr: *const u8) -> String {
     }
     string
 }
+pub struct UserBuffer {
+    pub buffers: Vec<&'static mut [u8]>,
+}
+
+impl UserBuffer {
+    pub fn new(buffers: Vec<&'static mut [u8]>) -> Self {
+        Self { buffers }
+    }
+    pub fn len(&self) -> usize {
+        let mut total: usize = 0;
+        for b in self.buffers.iter() {
+            total += b.len();
+        }
+        total
+    }
+
+    // 从第一个buffer开始写入，返回写入长度
+    // pub fn write(&mut self, buf: &[u8]) -> usize {
+    //     let len = self.len().min(buf.len());
+    //     // 如果任一长度为0就直接返回0
+    //     if len == 0 {
+    //         return 0;
+    //     }
+    //     // 当前写了多少长度
+    //     let mut write_len = 0;
+    //     for sub_buf in self.buffers.iter_mut() {
+    //         let sub_len = (*sub_buf).len();
+    //         for i in 0..sub_len {
+    //             (*sub_buf)[i] = buf[write_len];
+    //             write_len += 1;
+    //             if write_len == len {
+    //                 return write_len;
+    //             }
+    //         }
+    //     }
+    //     write_len
+    // }
+    pub fn write(&mut self, buff: &[u8])->usize{
+        let len = core::cmp::min(self.len(), buff.len());
+        let mut current = 0;
+        for sub_buff in self.buffers.iter_mut() {
+            let sblen = (*sub_buff).len();
+            for j in 0..sblen {
+                (*sub_buff)[j] = buff[current];
+                current += 1;
+                if current == len {
+                    return len;
+                }
+            }
+        }
+        return len;
+    }
+}
+
+impl IntoIterator for UserBuffer {
+    type Item = *mut u8;
+    type IntoIter = UserBufferIterator;
+    fn into_iter(self) -> Self::IntoIter {
+        UserBufferIterator {
+            buffers: self.buffers,
+            current_buffer: 0,
+            current_idx: 0,
+        }
+    }
+}
+
+pub struct UserBufferIterator {
+    buffers: Vec<&'static mut [u8]>,
+    current_buffer: usize,
+    current_idx: usize,
+}
+
+impl Iterator for UserBufferIterator {
+    type Item = *mut u8;
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.current_buffer >= self.buffers.len() {
+            None
+        } else {
+            let r = &mut self.buffers[self.current_buffer][self.current_idx] as *mut _;
+            if self.current_idx + 1 == self.buffers[self.current_buffer].len() {
+                self.current_idx = 0;
+                self.current_buffer += 1;
+            } else {
+                self.current_idx += 1;
+            }
+            Some(r)
+        }
+    }
+}
+
+pub fn translated_bytes<'a, T>(ptr: &T,len: usize) -> &'a [u8] {
+    unsafe {
+        let ptr = ptr as *const _ as *const u8;
+        core::slice::from_raw_parts(
+            ptr,
+            len
+        )
+    }
+}

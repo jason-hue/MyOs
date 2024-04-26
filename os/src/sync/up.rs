@@ -1,6 +1,6 @@
 use core::cell::{RefCell, RefMut};
 pub struct UPsafeCell<T>{
-    inner:RefCell<T>
+    pub inner:RefCell<T>
 }
 unsafe impl<T> Sync for UPsafeCell<T>{}
 

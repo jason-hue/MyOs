@@ -3,6 +3,7 @@
 #![feature(panic_info_message)]
 #![feature(str_from_raw_parts)]
 #![feature(allocator_api)]
+#![feature(fn_traits)]
 #![feature(alloc_error_handler)]
 extern crate alloc;
 extern crate bitflags;
@@ -21,6 +22,8 @@ mod timer;
 mod shell;
 mod memory;
 mod drivers;
+mod fatfs;
+mod fs;
 
 use alloc::vec::Vec;
 use core::panic::PanicInfo;
