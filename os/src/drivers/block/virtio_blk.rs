@@ -1,21 +1,20 @@
 use super::BlockDevice;
-use crate::sync::UPsafeCell;
+use crate::mm::{
+    frame_alloc, frame_dealloc, kernel_token, FrameTracker, PageTable, PhysAddr, PhysPageNum,
+    StepByOne, VirtAddr,
+};
+use crate::sync::UPSafeCell;
 use alloc::vec::Vec;
 use lazy_static::*;
-use crate::memory::page_table::PageTable;
 use virtio_drivers::{Hal, VirtIOBlk, VirtIOHeader};
-use crate::memory::address::{VirtAddr, PhysPageNum, PhysAddr, StepByOne};
-use crate::memory::frame_allocator::{frame_alloc, frame_dealloc, FrameTracker};
-use crate::memory::memory_set::kernel_token;
-
 
 #[allow(unused)]
 const VIRTIO0: usize = 0x10001000;
 
-pub struct VirtIOBlock(UPsafeCell<VirtIOBlk<'static, VirtioHal>>);
+pub struct VirtIOBlock(UPSafeCell<VirtIOBlk<'static, VirtioHal>>);
 
 lazy_static! {
-    static ref QUEUE_FRAMES: UPsafeCell<Vec<FrameTracker>> = unsafe { UPsafeCell::new(Vec::new()) };
+    static ref QUEUE_FRAMES: UPSafeCell<Vec<FrameTracker>> = unsafe { UPSafeCell::new(Vec::new()) };
 }
 
 impl BlockDevice for VirtIOBlock {
@@ -37,7 +36,7 @@ impl VirtIOBlock {
     #[allow(unused)]
     pub fn new() -> Self {
         unsafe {
-            Self(UPsafeCell::new(
+            Self(UPSafeCell::new(
                 VirtIOBlk::<VirtioHal>::new(&mut *(VIRTIO0 as *mut VirtIOHeader)).unwrap(),
             ))
         }

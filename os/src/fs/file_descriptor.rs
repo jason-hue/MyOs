@@ -1,7 +1,7 @@
 use alloc::sync::Arc;
 
 use super::{File, OSInode};
-use crate::memory::page_table::UserBuffer;
+use crate::mm::UserBuffer;
 
 #[derive(Clone)]
 // 抽象的文件描述符

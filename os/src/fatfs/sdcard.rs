@@ -1,7 +1,7 @@
 use super::io::{IoBase, Read, Seek, SeekFrom, Write};
-use crate::drivers::BlockDevice;
+use crate::drivers::block::BlockDevice;
 use crate::drivers::BLOCK_DEVICE;
-use crate::sync::UPsafeCell;
+use crate::sync::UPSafeCell;
 use alloc::collections::BTreeMap;
 use alloc::{collections::VecDeque, sync::Arc};
 use core::cmp::min;
@@ -9,7 +9,7 @@ use core::convert::TryFrom;
 use k210_pac::dmac::id;
 use log::warn;
 lazy_static::lazy_static!(
-    pub static ref BLK_MANAGER: Arc<UPsafeCell<BlkManager>> = Arc::new(unsafe{UPsafeCell::new(BlkManager::new())});
+    pub static ref BLK_MANAGER: Arc<UPSafeCell<BlkManager>> = Arc::new(unsafe{UPSafeCell::new(BlkManager::new())});
 );
 #[derive(Debug)]
 pub struct BlockCache {

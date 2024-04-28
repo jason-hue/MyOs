@@ -2,29 +2,28 @@ use crate::fatfs::file::Inode;
 use crate::fatfs::io::SeekFrom;
 use crate::fatfs::root_dir;
 use crate::fs::File;
-use crate::memory::page_table::UserBuffer;
-use crate::sync::UPsafeCell;
+use crate::mm::UserBuffer;
+use crate::sync::UPSafeCell;
 use alloc::string::String;
 use alloc::sync::Arc;
 use alloc::vec::Vec;
-use bitflags::bitflags;
 
 pub struct OSInode {
     readable: bool,
     writable: bool,
-    inner: UPsafeCell<OSInodeInner>,
+    inner: UPSafeCell<OSInodeInner>,
 }
 pub struct OSInodeInner {
     offset: usize,
-    inode: Arc<UPsafeCell<Inode>>,
+    inode: Arc<UPSafeCell<Inode>>,
 }
 
 impl OSInode {
-    pub fn new(readable: bool, writable: bool, inode: Arc<UPsafeCell<Inode>>) -> Self {
+    pub fn new(readable: bool, writable: bool, inode: Arc<UPSafeCell<Inode>>) -> Self {
         Self {
             readable,
             writable,
-            inner: unsafe { UPsafeCell::new(OSInodeInner { offset: 0, inode }) },
+            inner: unsafe { UPSafeCell::new(OSInodeInner { offset: 0, inode }) },
         }
     }
 
@@ -76,7 +75,7 @@ pub fn root() -> Arc<OSInode> {
     Arc::new(OSInode::new(
         true,
         true,
-        Arc::new(unsafe { UPsafeCell::new(root_dir()) }),
+        Arc::new(unsafe { UPSafeCell::new(root_dir()) }),
     ))
 }
 
@@ -88,7 +87,7 @@ pub fn open_file(path: &str, flags: OpenFlags) -> Option<Arc<OSInode>> {
         Some(Arc::new(OSInode::new(
             readable,
             writable,
-            Arc::new(unsafe { UPsafeCell::new(file) }),
+            Arc::new(unsafe { UPSafeCell::new(file) }),
         )))
     } else {
         if let Some(file) = root_dir().open(path, isdir) {
@@ -96,9 +95,9 @@ pub fn open_file(path: &str, flags: OpenFlags) -> Option<Arc<OSInode>> {
             Some(Arc::new(OSInode::new(
                 readable,
                 writable,
-                Arc::new(unsafe { UPsafeCell::new(file) }),
+                Arc::new(unsafe { UPSafeCell::new(file) }),
             )))
-        } else {
+        } else {    
             None
         }
     }
@@ -116,7 +115,7 @@ impl File for OSInode {
         let ier = self.inner.exclusive_access();
         let mut inner = ier.inode.exclusive_access();
         if let Some(inode) = inner.open(name, isdir) {
-            let os_inode = OSInode::new(read, write, Arc::new(unsafe { UPsafeCell::new(inode) }));
+            let os_inode = OSInode::new(read, write, Arc::new(unsafe { UPSafeCell::new(inode) }));
             Some(Arc::new(os_inode))
         } else {
             None
@@ -163,7 +162,7 @@ impl File for OSInode {
         let inner = self.inner.exclusive_access();
         let mut inner = inner.inode.exclusive_access();
         if let Some(inode) = inner.create(name, isdir) {
-            let os_inode = OSInode::new(read, write, Arc::new(unsafe { UPsafeCell::new(inode) }));
+            let os_inode = OSInode::new(read, write, Arc::new(unsafe { UPSafeCell::new(inode) }));
             Some(Arc::new(os_inode))
         } else {
             None
@@ -203,7 +202,7 @@ impl File for OSInode {
             .inode
             .exclusive_access()
             .getdents(dirent)
-
+            
     }
 }
 

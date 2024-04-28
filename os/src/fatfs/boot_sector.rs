@@ -1,4 +1,4 @@
-use log::info;
+use log::{error, info};
 
 use super::io::{Read, ReadLeExt};
 
@@ -6,7 +6,7 @@ use super::io::{Read, ReadLeExt};
 pub struct BiosParameterBlock {
     pub bytes_per_sector: u16,      //每个扇区的字节数，通常为512
     pub sectors_per_cluster: u8,    //每个簇包含的扇区数
-    pub reserved_sectors: u16,
+    pub reserved_sectors: u16,      
     pub fats: u8,                   //fat表数量，为2
     pub root_entries: u16,
     pub total_sectors_16: u16,
@@ -58,7 +58,7 @@ impl Default for BootSector {
 }
 
 impl BiosParameterBlock {
-    // 顺序读取设备R的第一个扇区的内容来初始化BPB
+        // 顺序读取设备R的第一个扇区的内容来初始化BPB
     fn deserialize<R: Read>(rdr: &mut R) -> Result<Self, R::Error> {
         let mut bpb = Self {
             bytes_per_sector: rdr.read_u16_le()?,
@@ -106,7 +106,6 @@ impl BiosParameterBlock {
     pub fn is_fat32(&self) -> bool {
         self.sectors_per_fat_16 == 0
     }
-    #[no_mangle]
     pub fn root_dir_sectors(&self) -> u32 {
         let root_dir_bytes = u32::from(self.root_entries) * 32;
         (root_dir_bytes + u32::from(self.bytes_per_sector) - 1) / u32::from(self.bytes_per_sector)
@@ -141,7 +140,7 @@ impl BiosParameterBlock {
             u32::from(self.total_sectors_16)
         }
     }
-
+    
     pub fn total_clusters(&self) -> u32 {
         let total_sectors = self.total_sectors();
         let first_data_sector = self.first_data_sector();

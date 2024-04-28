@@ -295,7 +295,7 @@ impl ShortNameGenerator {
             }
             // Make sure character is allowed in 8.3 name
             #[rustfmt::skip]
-                let fixed_c = match c {
+            let fixed_c = match c {
                 // strip spaces and dots
                 ' ' | '.' => {
                     lossy_conv = true;

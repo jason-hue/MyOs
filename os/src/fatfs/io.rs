@@ -87,10 +87,10 @@ pub trait Read: IoBase {
             match self.read(buf) {
                 Ok(0) => break,
                 Ok(n) => {
-
+                    
                     let tmp = buf;
                     buf = &mut tmp[n..];
-
+                    
                 }
                 Err(ref e) if e.is_interrupted() => {}
                 Err(e) => return Err(e),

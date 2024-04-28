@@ -1,4 +1,4 @@
-use crate::sync::UPsafeCell;
+use crate::sync::UPSafeCell;
 use alloc::sync::Arc;
 use core::convert::TryFrom;
 use core::{borrow::BorrowMut, cmp, marker::PhantomData};
@@ -12,12 +12,12 @@ use super::{
 };
 
 pub struct FileSystem<IO: ReadWriteSeek> {
-    pub disk: Arc<UPsafeCell<IO>>,
+    pub disk: Arc<UPSafeCell<IO>>,
     pub bpb: BiosParameterBlock,
     pub root_dir_sectors: u32,
     pub total_clusters: u32,
     pub first_data_sector: u32,
-    pub fs_info: UPsafeCell<FsInfoSector>,
+    pub fs_info: UPSafeCell<FsInfoSector>,
 }
 
 pub trait IntoStorage<T: Read + Write + Seek> {
@@ -47,11 +47,11 @@ impl<IO: Read + Write + Seek> FileSystem<IO> {
         let fs_info = FsInfoSector::deserialize(&mut disk)?;
         unsafe {
             Ok(Self {
-                disk: Arc::new(UPsafeCell::new(disk)),
+                disk: Arc::new(UPSafeCell::new(disk)),
                 root_dir_sectors,
                 first_data_sector,
                 total_clusters,
-                fs_info: UPsafeCell::new(fs_info),
+                fs_info: UPSafeCell::new(fs_info),
                 bpb,
             })
         }
@@ -73,7 +73,7 @@ impl<IO: Read + Write + Seek> FileSystem<IO> {
         zero: bool,
     ) -> Result<u32, Error<IO::Error>> {
         let hint = self.fs_info.inner.borrow_mut().next_free_cluster;
-
+        
         let cluster = {
             let mut fat = self.fat_slice();
             match table_alloc_cluster(&mut fat, prev_cluster, hint, self.total_clusters) {

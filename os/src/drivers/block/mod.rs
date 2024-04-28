@@ -3,7 +3,7 @@ mod block_device;
 
 pub use virtio_blk::VirtIOBlock;
 pub use block_device::BlockDevice; //这里从easyfs替换为同一目录下的Blockevice,也要给其他文件用
-use crate::config::qemu_BlockDeviceImpl as BlockDeviceImpl;
+use crate::board::BlockDeviceImpl;
 use alloc::sync::Arc;
 
 use lazy_static::*;

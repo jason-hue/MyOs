@@ -1,6 +1,6 @@
 use crate::{
     fs::{Dirent, File, Kstat},
-    sync::UPsafeCell,
+    sync::UPSafeCell,
 };
 use alloc::{string::String, vec::Vec};
 use core::{cmp, ptr::NonNull};
@@ -20,7 +20,7 @@ pub struct FileEntry {
     pub current_cluster: Option<u32>,
     pub pos: u64,
     pub entry: DirEntryEditor,
-    pub disk: UPsafeCell<BlockCacheManager>,
+    pub disk: UPSafeCell<BlockCacheManager>,
     pub range: (u64, u64),
 }
 
@@ -36,7 +36,7 @@ impl FileEntry {
         let current_cluster = None;
         let mut disk = BlockCacheManager::from(abs_start_pos as usize, entry.size() as usize);
         disk.seek(SeekFrom::Start(abs_start_pos)).unwrap();
-        let disk = unsafe { UPsafeCell::new(disk) };
+        let disk = unsafe { UPSafeCell::new(disk) };
         let entry = DirEntryEditor::new(entry, entry_pos);
         Self {
             pos,
@@ -119,7 +119,7 @@ impl Read for FileEntry {
         disk.seek(SeekFrom::Start(
             cluster_to_offset(self.entry.inner().first_cluster().unwrap()) + self.pos,
         ))
-            .unwrap();
+        .unwrap();
         match disk.read(buf) {
             Ok(len) => {
                 let len = len as u64;

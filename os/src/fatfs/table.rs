@@ -19,34 +19,34 @@ enum FatValue {
 
 trait FatTrait {
     fn get_raw<S>(fat: &mut S, cluster: u32) -> Result<u32, Error<()>>
-        where
-            S: Read + Seek;
+    where
+        S: Read + Seek;
 
     fn get<S>(fat: &mut S, cluster: u32) -> Result<FatValue, Error<()>>
-        where
-            S: Read + Seek;
+    where
+        S: Read + Seek;
 
     fn set_raw<S>(fat: &mut S, cluster: u32, raw_value: u32) -> Result<(), Error<()>>
-        where
-            S: Read + Write + Seek;
+    where
+        S: Read + Write + Seek;
 
     fn set<S>(fat: &mut S, cluster: u32, value: FatValue) -> Result<(), Error<()>>
-        where
-            S: Read + Write + Seek;
+    where
+        S: Read + Write + Seek;
 
     fn find_free<S>(fat: &mut S, start_cluster: u32, end_cluster: u32) -> Result<u32, Error<()>>
-        where
-            S: Read + Seek;
+    where
+        S: Read + Seek;
 
     fn count_free<S>(fat: &mut S, end_cluster: u32) -> Result<u32, Error<()>>
-        where
-            S: Read + Seek;
+    where
+        S: Read + Seek;
 }
 
 impl FatTrait for Fat32 {
     fn get_raw<S>(fat: &mut S, cluster: u32) -> Result<u32, Error<()>>
-        where
-            S: Read + Seek,
+    where
+        S: Read + Seek,
     {
         fat.seek(io::SeekFrom::Start(u64::from(cluster * 4)))
             .unwrap();
@@ -54,8 +54,8 @@ impl FatTrait for Fat32 {
     }
 
     fn get<S>(fat: &mut S, cluster: u32) -> Result<FatValue, Error<()>>
-        where
-            S: Read + Seek,
+    where
+        S: Read + Seek,
     {
         let val = Self::get_raw(fat, cluster)? & 0x0FFF_FFFF;
         Ok(match val {
@@ -88,8 +88,8 @@ impl FatTrait for Fat32 {
     }
 
     fn set_raw<S>(fat: &mut S, cluster: u32, raw_value: u32) -> Result<(), Error<()>>
-        where
-            S: Read + Write + Seek,
+    where
+        S: Read + Write + Seek,
     {
         fat.seek(io::SeekFrom::Start(u64::from(cluster * 4)))
             .unwrap();
@@ -98,8 +98,8 @@ impl FatTrait for Fat32 {
     }
 
     fn set<S>(fat: &mut S, cluster: u32, value: FatValue) -> Result<(), Error<()>>
-        where
-            S: Read + Write + Seek,
+    where
+        S: Read + Write + Seek,
     {
         let old_reserved_bits = Self::get_raw(fat, cluster)? & 0xF000_0000;
 
@@ -113,9 +113,9 @@ impl FatTrait for Fat32 {
                 "end-of-chain"
             };
             panic!(
-                "cluster number {} is a special value in FAT to indicate {}; it should never be set as free",
-                cluster, tmp
-            );
+                    "cluster number {} is a special value in FAT to indicate {}; it should never be set as free",
+                    cluster, tmp
+                );
         };
         let raw_val = match value {
             FatValue::Free => 0,
@@ -128,11 +128,11 @@ impl FatTrait for Fat32 {
     }
 
     fn find_free<S>(fat: &mut S, start_cluster: u32, end_cluster: u32) -> Result<u32, Error<()>>
-        where
-            S: Read + Seek,
+    where
+        S: Read + Seek,
     {
         let mut cluster = start_cluster;
-
+        
         fat.seek(io::SeekFrom::Start(u64::from(cluster * 4)))
             .unwrap();
         while cluster < end_cluster {
@@ -146,8 +146,8 @@ impl FatTrait for Fat32 {
     }
 
     fn count_free<S>(fat: &mut S, end_cluster: u32) -> Result<u32, Error<()>>
-        where
-            S: Read + Seek,
+    where
+        S: Read + Seek,
     {
         let mut count = 0;
         let mut cluster = RESERVED_FAT_ENTRIES;
@@ -170,8 +170,8 @@ pub fn table_alloc_cluster<S>(
     hint: Option<u32>,
     total_clusters: u32,
 ) -> Result<u32, Error<()>>
-    where
-        S: Read + Write + Seek,
+where
+    S: Read + Write + Seek,
 {
     let end_cluster = total_clusters + RESERVED_FAT_ENTRIES;
     let start_cluster = match hint {

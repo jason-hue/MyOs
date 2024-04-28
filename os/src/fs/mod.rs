@@ -4,7 +4,7 @@ mod pipe;
 mod stdio;
 mod file_descriptor;
 
-use crate::{fatfs::io::SeekFrom, memory::page_table::UserBuffer};
+use crate::{fatfs::io::SeekFrom, mm::UserBuffer};
 
 pub trait File: Send + Sync {
     fn readable(&self) -> bool;

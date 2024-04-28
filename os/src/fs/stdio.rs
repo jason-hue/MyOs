@@ -1,7 +1,7 @@
 use alloc::string::{ToString,String};
 
 use super::File;
-use crate::memory::page_table::UserBuffer;
+use crate::mm::UserBuffer;
 use crate::sbi::console_getchar;
 use crate::task::suspend_current_and_run_next;
 

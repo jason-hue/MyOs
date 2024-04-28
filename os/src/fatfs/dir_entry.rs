@@ -21,7 +21,7 @@ use super::{
 use crate::{
     fatfs::lfn::{LongNameBuilder, ShortName, LFN_PART_LEN},
     fs::Dirent,
-    sync::UPsafeCell, console::print,
+    sync::UPSafeCell, console::print,
 };
 
 bitflags! {
@@ -350,7 +350,7 @@ impl DirEntryData {
 pub struct DirEntry {
     pub dir_entry: DirFileEntry,
     pub offset: u64, // abs offset
-    pub disk: UPsafeCell<BlockCacheManager>,
+    pub disk: UPSafeCell<BlockCacheManager>,
     pub short_name: ShortName,
     pub lfn_utf16: LfnBuffer,
     pub offset_range: (u64, u64),
@@ -374,7 +374,7 @@ impl DirEntry {
 
         Self {
             dir_entry,
-            disk: unsafe { UPsafeCell::new(blk) },
+            disk: unsafe { UPSafeCell::new(blk) },
             offset,
             short_name: ShortName::new(b"/          "),
             lfn_utf16: LfnBuffer::new(),
@@ -390,7 +390,7 @@ impl DirEntry {
         let dir_entry = DirFileEntry::deserialize(&mut blk).unwrap();
         Self {
             dir_entry,
-            disk: unsafe { UPsafeCell::new(blk) },
+            disk: unsafe { UPSafeCell::new(blk) },
             offset,
             short_name: ShortName::new(b"  root     "),
             lfn_utf16: LfnBuffer::new(),
@@ -417,7 +417,7 @@ impl DirEntry {
     pub fn find_entry(&mut self, name: &str, is_dir: Option<bool>) -> Result<DirEntry, Error<()>> {
         self.seek(SeekFrom::Start(0)).unwrap();
         for e in self {
-
+            
             if e.eq_name(name) {
                 if is_dir.is_some() && Some(e.is_dir()) != is_dir {
                     if e.is_dir() {
@@ -478,7 +478,7 @@ impl DirEntry {
     fn find_free_entries(&mut self, num_entries: u32) -> Result<BlockCacheManager, Error<()>> {
         let start = self.seek(SeekFrom::Start(0)).unwrap();
         let mut stream = self.disk.inner.borrow_mut();
-
+        
         let mut first_free: u32 = 0;
         let mut num_free: u32 = 0;
         let mut i: u32 = 0;
@@ -528,7 +528,7 @@ impl DirEntry {
         let a = lfn_utf16.as_ucs2_units();
         let lfn_iter = LfnEntriesGenerator::new(lfn_utf16.as_ucs2_units(), lfn_chsum);
         let num_entries = lfn_iter.len() as u32 + 1;
-
+        
         let mut stream = self.find_free_entries(num_entries)?;
         let start_pos = stream.seek(io::SeekFrom::Current(0))?;
         for lfn_entry in lfn_iter {
@@ -547,7 +547,7 @@ impl DirEntry {
         let end_pos = stream.seek(io::SeekFrom::Current(0))?;
         let short_name = ShortName::new(raw_entry.name());
         let offset = 0;
-        let disk = unsafe { UPsafeCell::new(BlockCacheManager::new()) };
+        let disk = unsafe { UPSafeCell::new(BlockCacheManager::new()) };
         let offset_range = (start_pos, end_pos);
         Ok(DirEntry {
             dir_entry: raw_entry,
@@ -566,7 +566,7 @@ impl DirEntry {
     }
 
     pub fn create_file(&mut self, path: &str) -> Result<Inode, Error<()>> {
-
+        
         let (name, rest_opt) = split_path(path);
         if let Some(rest) = rest_opt {
             return self.find_entry(name, Some(true))?.create_file(rest);
@@ -591,7 +591,7 @@ impl DirEntry {
         if let Some(rest) = rest_opt {
             return self.find_entry(name, Some(true))?.create_dir(rest);
         }
-
+        
         let r = self.check_for_existence(name, Some(true))?;
         match r {
             DirEntryOrShortName::DirEntry(e) => Ok(Inode::Dir(e)),
@@ -600,7 +600,7 @@ impl DirEntry {
                 let sfn_entry =
                     self.create_sfn_entry(short_name, DirAttr::DIRECTORY, Some(cluster));
                 let mut entry = self.write_entry(name, sfn_entry)?;
-
+                
                 let dot_sfn = ShortNameGenerator::generate_dot();
                 let sfn_entry = self.create_sfn_entry(
                     dot_sfn,
@@ -608,7 +608,7 @@ impl DirEntry {
                     entry.dir_entry.first_cluster(),
                 );
                 entry.write_entry(".", sfn_entry)?;
-
+                
                 let dotdot_sfn = ShortNameGenerator::generate_dotdot();
                 let sfn_entry = self.create_sfn_entry(
                     dotdot_sfn,
@@ -662,7 +662,7 @@ impl DirEntry {
     }
 
     pub fn read_next_entry(&mut self) -> Result<Option<DirEntry>, Error<()>> {
-
+        
         let mut lfn_builder = LongNameBuilder::new();
         let mut offset = self.disk.inner.borrow_mut().seek(SeekFrom::Current(0))?;
         let mut begin_offset = offset;
@@ -686,7 +686,7 @@ impl DirEntry {
                     let mut blk = BlockCacheManager::new();
 
                     blk.seek(SeekFrom::Start(offset))?;
-                    let disk = unsafe { UPsafeCell::new(blk) };
+                    let disk = unsafe { UPSafeCell::new(blk) };
                     return Ok({
                         Some(Self {
                             dir_entry: data,
@@ -869,9 +869,9 @@ impl DirEntryEditor {
 
     pub fn flush(&self) {
         let mut disk = BlockCacheManager::new();
-
+        
         disk.seek(io::SeekFrom::Start(self.pos)).unwrap();
-
+        
         self.data.serialize(&mut disk).unwrap();
     }
 }
