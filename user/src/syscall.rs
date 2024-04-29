@@ -52,8 +52,8 @@ pub fn sys_fork() -> isize {
     syscall(SYS_FORK, [0, 0, 0])
 }
 
-pub fn sys_exec(path: &str) -> isize {
-    syscall(SYS_EXEC, [path.as_ptr() as usize, 0, 0])
+pub fn sys_exec(path: *const u8) -> isize {
+    syscall(SYS_EXEC, [path as usize, 0, 0])
 }
 
 pub fn sys_waitpid(pid: isize, exit_code: *mut i32) -> isize {
