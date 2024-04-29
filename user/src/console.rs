@@ -1,4 +1,4 @@
-use crate::{read, sys_write, write};
+use crate::{get_char, write};
 use core::fmt::{Arguments, Write};
 struct Stdout;
 const STDOUT: usize = 1;
@@ -39,6 +39,6 @@ macro_rules! logo {
 }
 pub fn getchar() -> u8 {
     let mut c = [0u8; 1];
-    read(STDIN, &mut c);
+    get_char(STDIN, &mut c);
     c[0]
 }

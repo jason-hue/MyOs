@@ -72,7 +72,7 @@ fn process_command(command: &str){
         "list" =>{
             print_apps();
         }
-        "shutdown" | "sd" | "exit" => shutdown(),
+        "shutdown" | "sd" => shutdown(),
         "" => {}
         _ => {
             if !command.is_empty() {

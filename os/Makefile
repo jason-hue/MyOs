@@ -4,13 +4,14 @@ clean:
 	cargo clean
 qemu_build:clean
 	python3 linkchg.py qemu
-	cd ../user/&& make build
+	cd ../user/&& make build && make copy_to_img
 	cargo build --release
 k210_build:clean
 	python3 linkchg.py k210
-	cd ../user/&& make build
+	cd ../user/&& make build && make copy_to_img
 	cargo build --release
 qemu_dump:qemu_build
+	make fat-img
 	rust-objcopy --strip-all target/riscv64gc-unknown-none-elf/release/MyOs -O binary target/riscv64gc-unknown-none-elf/release/MyOs.bin
 k210_dump:k210_build
 	rust-objcopy --strip-all target/riscv64gc-unknown-none-elf/release/MyOs -O binary target/riscv64gc-unknown-none-elf/release/MyOs.bin

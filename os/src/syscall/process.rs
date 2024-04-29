@@ -6,6 +6,8 @@ use crate::task::{
 };
 use crate::timer::get_time_ms;
 use alloc::sync::Arc;
+use crate::fatfs::root_dir;
+use crate::sbi::shutdown;
 
 pub fn sys_exit(exit_code: i32) -> ! {
     exit_current_and_run_next(exit_code);
@@ -87,4 +89,12 @@ pub fn sys_waitpid(pid: isize, exit_code_ptr: *mut i32) -> isize {
         -2
     }
     // ---- release current PCB automatically
+}
+pub fn sys_print_apps() -> isize {
+    root_dir().ls();
+    0
+}
+pub fn sys_shutdown(failure: bool) -> isize {
+    shutdown(failure);
+    0
 }

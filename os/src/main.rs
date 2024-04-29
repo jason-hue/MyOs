@@ -55,11 +55,9 @@ pub fn rust_main() -> ! {
     trap::init();
     trap::enable_timer_interrupt();
     timer::set_next_trigger();
-
     fatfs::fs_init();
     println!("FAT init Sucessful!");
-    loop {
-
-    }
-
+    task::add_initproc();
+    task::run_tasks();
+    panic!("Unreachable in rust_main!");
 }

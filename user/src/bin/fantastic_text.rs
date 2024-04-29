@@ -23,7 +23,7 @@ pub fn main() -> i32 {
         color_text!("u", 37),
         color_text!("s", 90),
         color_text!("t", 91),
-        color_text!("u", 92),
+        color_text!("r", 92),
         color_text!("C", 93),
         color_text!("o", 94),
         color_text!("r", 95),

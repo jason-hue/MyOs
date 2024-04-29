@@ -20,6 +20,9 @@ const SYSCALL_GETPID: usize = 172;
 const SYSCALL_FORK: usize = 220;
 const SYSCALL_EXEC: usize = 221;
 const SYSCALL_WAITPID: usize = 260;
+const SYSCALL_GETCHAR: usize = 520;
+const SYS_PRINT_APPS: usize = 100;
+const SYS_SHUTDOWN: usize = 48;
 
 mod fs;
 mod process;
@@ -29,7 +32,7 @@ use process::*;
 /// handle syscall exception with `syscall_id` and other arguments
 pub fn syscall(syscall_id: usize, args: [usize; 3]) -> isize {
     match syscall_id {
-        SYSCALL_OPEN => sys_open(args[0] as *const u8, args[1] as u32),
+        SYSCALL_OPEN => sys_open(args[0] as isize,args[1] as *const u8, args[2] as u32),
         SYSCALL_CLOSE => sys_close(args[0]),
         SYSCALL_READ => sys_read(args[0], args[1] as *const u8, args[2]),
         SYSCALL_WRITE => sys_write(args[0], args[1] as *const u8, args[2]),
@@ -40,6 +43,9 @@ pub fn syscall(syscall_id: usize, args: [usize; 3]) -> isize {
         SYSCALL_FORK => sys_fork(),
         SYSCALL_EXEC => sys_exec(args[0] as *const u8),
         SYSCALL_WAITPID => sys_waitpid(args[0] as isize, args[1] as *mut i32),
+        SYSCALL_GETCHAR => sys_getchar(args[0], args[1] as *const u8, args[2]),
+        SYS_PRINT_APPS=> sys_print_apps(),
+        SYS_SHUTDOWN => sys_shutdown(false),
         _ => panic!("Unsupported syscall_id: {}", syscall_id),
     }
 }

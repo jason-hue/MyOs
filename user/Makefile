@@ -10,6 +10,7 @@ OBJDUMP := rust-objdump --arch-name=riscv64
 OBJCOPY := rust-objcopy --binary-architecture=riscv64
 
 elf: $(APPS)
+	make clean
 	@cargo build --release
 
 binary: elf
@@ -21,3 +22,7 @@ clean:
 	@cargo clean
 
 .PHONY: elf binary build clean
+
+copy_to_img:
+	cd ../testsuits/ && file * | grep "ELF" | cut -d: -f1 | xargs rm -f
+	cd target/riscv64gc-unknown-none-elf/release/ && file * | grep "ELF" | cut -d: -f1 | xargs -I {} cp {} ../../../../testsuits/

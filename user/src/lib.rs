@@ -6,6 +6,8 @@
 mod lang_items;
 mod syscall;
 pub mod console;
+
+use bitflags::bitflags;
 use buddy_system_allocator::LockedHeap;
 use syscall::*;
 
@@ -52,9 +54,6 @@ fn main() -> i32 {
 
 use crate::syscall::{sys_exec, sys_exit, sys_fork, sys_get_time, sys_getpid, sys_read, sys_sbrk, sys_waitpid, sys_write, sys_yield};
 
-pub fn write(fd:usize, buffer:&[u8]) -> isize {
-    sys_write(fd, buffer.as_ptr(),buffer.len())
-}
 pub fn exit(exit_code:i32)->isize{
     sys_exit(exit_code)
 }
@@ -77,10 +76,7 @@ pub fn fork() -> isize {
 pub fn exec(path: &str) -> isize {
     sys_exec(path)
 }
-pub fn read(fd: usize, buf: &mut [u8]) -> isize {
-    sys_read(fd, buf)
 
-}
 pub fn wait(exit_code: &mut i32) -> isize {
     loop {
         match sys_waitpid(-1, exit_code as *mut _) {
@@ -115,4 +111,28 @@ pub fn shutdown(){
 }
 pub fn print_apps(){
     sys_print_apps();
+}
+bitflags! {
+    pub struct OpenFlags: u32 {
+        const RDONLY = 0;
+        const WRONLY = 1 << 0;
+        const RDWR = 1 << 1;
+        const CREATE = 1 << 9;
+        const TRUNC = 1 << 10;
+    }
+}
+pub fn open(path: &str, flags: OpenFlags) -> isize {
+    sys_open(path, flags.bits)
+}
+pub fn close(fd: usize) -> isize {
+    sys_close(fd)
+}
+pub fn read(fd: usize, buf: &mut [u8]) -> isize {
+    sys_read(fd, buf)
+}
+pub fn write(fd: usize, buf: &[u8]) -> isize {
+    sys_write(fd, buf)
+}
+pub fn get_char(fd: usize, buf: &mut [u8])->isize{
+    sys_getchar(fd, buf)
 }

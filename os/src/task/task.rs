@@ -2,7 +2,7 @@
 use super::TaskContext;
 use super::{pid_alloc, KernelStack, PidHandle};
 use crate::config::TRAP_CONTEXT;
-use crate::fs::{File, Stdin, Stdout};
+use crate::fs::{File, FileDescriptor, root, Stdin, Stdout};
 use crate::mm::{MemorySet, PhysPageNum, VirtAddr, KERNEL_SPACE};
 use crate::sync::UPSafeCell;
 use crate::trap::{trap_handler, TrapContext};
@@ -28,7 +28,9 @@ pub struct TaskControlBlockInner {
     pub parent: Option<Weak<TaskControlBlock>>,
     pub children: Vec<Arc<TaskControlBlock>>,
     pub exit_code: i32,
-    pub fd_table: Vec<Option<Arc<dyn File + Send + Sync>>>,
+    pub work_dir: Arc<FileDescriptor>,
+    pub is_zombie: bool,
+    pub fd_table: Vec<Option<FileDescriptor>>,
 }
 
 impl TaskControlBlockInner {
@@ -84,12 +86,14 @@ impl TaskControlBlock {
                     exit_code: 0,
                     fd_table: vec![
                         // 0 -> stdin
-                        Some(Arc::new(Stdin)),
+                        Some(FileDescriptor::Abstract(Arc::new(Stdin))),
                         // 1 -> stdout
-                        Some(Arc::new(Stdout)),
+                        Some(FileDescriptor::Abstract(Arc::new(Stdout))),
                         // 2 -> stderr
-                        Some(Arc::new(Stdout)),
+                        Some(FileDescriptor::Abstract(Arc::new(Stdout))),
                     ],
+                    work_dir:Arc::new(FileDescriptor::File(root())),
+                    is_zombie: false,
                 })
             },
         };
@@ -142,8 +146,7 @@ impl TaskControlBlock {
         let pid_handle = pid_alloc();
         let kernel_stack = KernelStack::new(&pid_handle);
         let kernel_stack_top = kernel_stack.get_top();
-        // copy fd table
-        let mut new_fd_table: Vec<Option<Arc<dyn File + Send + Sync>>> = Vec::new();
+        let mut new_fd_table: Vec<Option<FileDescriptor>> = Vec::new();
         for fd in parent_inner.fd_table.iter() {
             if let Some(file) = fd {
                 new_fd_table.push(Some(file.clone()));
@@ -165,6 +168,8 @@ impl TaskControlBlock {
                     children: Vec::new(),
                     exit_code: 0,
                     fd_table: new_fd_table,
+                    is_zombie: false,
+                    work_dir: parent_inner.work_dir.clone()
                 })
             },
         });
