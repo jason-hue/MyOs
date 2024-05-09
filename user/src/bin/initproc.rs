@@ -9,7 +9,7 @@ use user_lib::{exec, fork, wait, _yield};
 #[no_mangle]
 fn main() -> i32 {
     if fork() == 0 {
-        exec("app_test\0".as_ptr());
+        exec("app_test\0");
     } else {
         loop {
             let mut exit_code: i32 = 0;

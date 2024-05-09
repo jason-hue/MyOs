@@ -78,7 +78,7 @@ fn process_command(command: &str){
             if !command.is_empty() {
                 let pid = fork();
                 if pid == 0{
-                    if exec(trimmed_command.as_ptr()) == -1{
+                    if exec(trimmed_command) == -1{
                         println!("Error when executing!");
                         return;
                     }

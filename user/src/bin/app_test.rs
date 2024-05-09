@@ -18,11 +18,9 @@ fn main() -> i32 {
 }
 
 fn fe(file: &str){
-    let mut file_b = file.to_string();
-    file_b.push('\0');
     let pid = fork();
     if pid == 0{
-        if exec(file_b.as_ptr()) == -1{
+        if exec(file) == -1{
             println!("Error when executing!");
             return;
         }
