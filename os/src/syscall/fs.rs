@@ -1,25 +1,12 @@
-//! File and filesystem-related syscalls
 use alloc::string::ToString;
-use crate::fs::{File, FileDescriptor, open_file, OpenFlags};
-use crate::mm::{translated_byte_buffer, translated_str, UserBuffer};
-use crate::sbi::console_getchar;
-use crate::task::{current_task, current_user_token, suspend_current_and_run_next};
+use crate::fs::{File, FileDescriptor, make_pipe, open_file, OpenFlags};
+use crate::mm::{translated_byte_buffer, translated_refmut, translated_str, UserBuffer};
+use crate::task::{current_process, current_user_token};
 
-pub fn sys_getcwd(buf: *const u8, size: usize) -> isize{
-    let token = current_user_token();
-    let process = current_task().unwrap();
-    let inner = process.inner_exclusive_access();
-    let name = inner.work_dir.name().clone();
-    let dir = name.as_bytes();
-    for b in UserBuffer::new(translated_byte_buffer(token, buf, size)).buffers {
-        b[0..dir.len()].copy_from_slice(dir);
-    }
-    1
-}
 pub fn sys_write(fd: usize, buf: *const u8, len: usize) -> isize {
     if fd != 1 {println!("write fd {}",fd);}
     let token = current_user_token();
-    let process = current_task().unwrap();
+    let process = current_process();
     let inner = process.inner_exclusive_access();
     if fd >= inner.fd_table.len() {
         return -1;
@@ -36,9 +23,10 @@ pub fn sys_write(fd: usize, buf: *const u8, len: usize) -> isize {
         -1
     }
 }
+
 pub fn sys_read(fd: usize, buf: *const u8, len: usize) -> isize {
     let token = current_user_token();
-    let process = current_task().unwrap();
+    let process = current_process();
     let inner = process.inner_exclusive_access();
     if fd >= inner.fd_table.len() {
         return -1;
@@ -55,9 +43,10 @@ pub fn sys_read(fd: usize, buf: *const u8, len: usize) -> isize {
         -1
     }
 }
+
 pub fn sys_open(fd:isize, path: *const u8, flags: u32) -> isize {
     print!("");
-    let process = current_task().unwrap();
+    let process = current_process();
     let token = current_user_token();
     let mut inner = process.inner_exclusive_access();
     let path = translated_str(token, path).replace("./", "");
@@ -95,11 +84,11 @@ pub fn sys_open(fd:isize, path: *const u8, flags: u32) -> isize {
     } else {
         -1
     }
-
 }
+
 pub fn sys_close(fd: usize) -> isize {
     println!("enter close");
-    let process = current_task().unwrap();
+    let process = current_process();
     let mut inner = process.inner_exclusive_access();
     if fd >= inner.fd_table.len() {
         return -1;
@@ -109,31 +98,4 @@ pub fn sys_close(fd: usize) -> isize {
     }
     inner.fd_table[fd].take();
     0
-}
-
-const FD_STDIN: usize = 0;
-
-pub fn sys_getchar(fd: usize, buf: *const u8, len: usize) -> isize {
-    match fd {
-        FD_STDIN => {
-            assert_eq!(len, 1, "Only support len = 1 in sys_getchar!");
-            let mut c: usize;
-            loop {
-                c = console_getchar();
-                if c == 0 {
-                    suspend_current_and_run_next();
-                    continue;
-                } else {
-                    break;
-                }
-            }
-            let ch = c as u8;
-            let mut buffers = translated_byte_buffer(current_user_token(), buf, len);
-            unsafe { buffers[0].as_mut_ptr().write_volatile(ch); }
-            1
-        }
-        _ => {
-            panic!("Unsupported fd in sys_getchar!");
-        }
-    }
 }

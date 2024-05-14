@@ -1,5 +1,5 @@
 use super::io::{IoBase, Read, Seek, SeekFrom, Write};
-use crate::drivers::block::BlockDevice;
+use crate::drivers::BlockDevice;
 use crate::drivers::BLOCK_DEVICE;
 use crate::sync::UPSafeCell;
 use alloc::collections::BTreeMap;

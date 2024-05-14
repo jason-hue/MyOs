@@ -4,7 +4,7 @@ clean:
 	cargo clean
 qemu_build:clean
 	python3 linkchg.py qemu
-	cd ../user/&& make build && make copy_to_img
+	cd ../user/&& make build
 	cargo build --release
 k210_build:clean
 	python3 linkchg.py k210

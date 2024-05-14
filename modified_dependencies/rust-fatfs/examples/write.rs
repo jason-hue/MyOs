@@ -5,7 +5,7 @@ use fatfs::{FileSystem, FsOptions};
 use fscommon::BufStream;
 
 fn main() -> io::Result<()> {
-    let img_file = match OpenOptions::new().read(true).write(true).open("fat.img") {
+    let img_file = match OpenOptions::new().read(true).write(true).open("fatt.img") {
         Ok(file) => file,
         Err(err) => {
             println!("Failed to open image!");

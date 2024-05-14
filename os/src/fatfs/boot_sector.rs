@@ -1,4 +1,4 @@
-use log::{error, info};
+use log::info;
 
 use super::io::{Read, ReadLeExt};
 
@@ -108,7 +108,7 @@ impl BiosParameterBlock {
     }
     pub fn root_dir_sectors(&self) -> u32 {
         let root_dir_bytes = u32::from(self.root_entries) * 32;
-        (root_dir_bytes + u32::from(self.bytes_per_sector) - 1) / u32::from(self.bytes_per_sector)
+        (root_dir_bytes + u32::from(self.bytes_per_sector) - 1) / u32::from(self.bytes_per_sector) 
     }
 
     pub fn sectors_per_fat(&self) -> u32 {

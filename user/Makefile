@@ -1,4 +1,4 @@
-TARGET := riscv64gc-unknown-none-elf
+TARGET := riscv64imac-unknown-none-elf
 MODE := release
 APP_DIR := src/bin
 TARGET_DIR := target/$(TARGET)/$(MODE)
@@ -25,4 +25,4 @@ clean:
 
 copy_to_img:
 	cd ../testsuits/ && file * | grep "ELF" | cut -d: -f1 | xargs rm -f
-	cd target/riscv64gc-unknown-none-elf/release/ && file * | grep "ELF" | cut -d: -f1 | xargs -I {} cp {} ../../../../testsuits/
+	cd target/$(TARGET)/release/ && file * | grep "ELF" | cut -d: -f1 | xargs -I {} cp {} ../../../../testsuits/

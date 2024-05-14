@@ -5,9 +5,7 @@
 extern crate user_lib;
 extern crate alloc;
 
-use alloc::string::ToString;
 use user_lib::{exec, exit, fork, wait, waitpid, sleep};
-use core::arch::asm;
 #[no_mangle]
 fn main() -> i32 {
     let files: [&str; 5] =["fantastic_text\0","hello_world\0","matrix\0","sleep\0","exit\0"];

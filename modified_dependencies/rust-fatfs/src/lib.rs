@@ -16,10 +16,10 @@
 //! use std::io::prelude::*;
 //!
 //! fn main() -> std::io::Result<()> {
-//!     # std::fs::copy("resources/fat16.img", "tmp/fat.img")?;
+//!     # std::fs::copy("resources/fat16.img", "tmp/fatt.img")?;
 //!     // Initialize a filesystem object
 //!     let img_file = std::fs::OpenOptions::new().read(true).write(true)
-//!         .open("tmp/fat.img")?;
+//!         .open("tmp/fatt.img")?;
 //!     let buf_stream = fscommon::BufStream::new(img_file);
 //!     let fs = fatfs::FileSystem::new(buf_stream, fatfs::FsOptions::new())?;
 //!     let root_dir = fs.root_dir();
@@ -36,7 +36,7 @@
 //!         let entry = r?;
 //!         println!("{}", entry.file_name());
 //!     }
-//!     # std::fs::remove_file("tmp/fat.img")?;
+//!     # std::fs::remove_file("tmp/fatt.img")?;
 //!     # Ok(())
 //! }
 //! ```

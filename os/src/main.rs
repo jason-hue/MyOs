@@ -1,10 +1,8 @@
-#![allow(unused_imports)]
 #![no_std]
 #![no_main]
-#![feature(fn_traits)]
 #![feature(panic_info_message)]
 #![feature(alloc_error_handler)]
-
+#![feature(fn_traits)]
 extern crate alloc;
 
 #[macro_use]
@@ -16,24 +14,22 @@ mod board;
 #[macro_use]
 mod console;
 mod config;
-mod drivers;
-pub mod lang_items;
-pub mod mm;
-pub mod sbi;
-pub mod sync;
-pub mod syscall;
-pub mod task;
-pub mod k210_lcd_driver;
-pub mod timer;
-pub mod trap;
-mod fatfs;
 mod fs;
-
+mod lang_items;
+mod mm;
+mod sbi;
+mod sync;
+mod syscall;
+mod task;
+mod timer;
+mod trap;
+mod drivers;
+mod fatfs;
 use core::arch::global_asm;
-use crate::console::print;
+use crate::fatfs::fs_init;
 
 global_asm!(include_str!("entry.asm"));
-/// clear BSS segment
+
 fn clear_bss() {
     extern "C" {
         fn sbss();
@@ -46,7 +42,6 @@ fn clear_bss() {
 }
 
 #[no_mangle]
-/// the rust entry-point of os
 pub fn rust_main() -> ! {
     clear_bss();
     println!("[kernel] Hello, world!");
@@ -55,8 +50,7 @@ pub fn rust_main() -> ! {
     trap::init();
     trap::enable_timer_interrupt();
     timer::set_next_trigger();
-    fatfs::fs_init();
-    println!("FAT init Sucessful!");
+    fs_init();
     task::add_initproc();
     task::run_tasks();
     panic!("Unreachable in rust_main!");
